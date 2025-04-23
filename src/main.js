@@ -43,6 +43,8 @@ const PRESS_TIME = 1;
 let tiles = [];
 let sprites = [];
 
+let earthboundFont;
+
 let gridSam = new Grid();
 let mainCursor = new Cursor(gridSam, 0, 0);
 
@@ -71,6 +73,8 @@ function preload() {
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
 	
+	earthboundFont = loadFont(assets.font.earthbound);
+	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
 	sprites[1] = [loadImage(assets.sprites.penman_frame_1), loadImage(assets.sprites.penman_frame_2)];
 
@@ -82,6 +86,8 @@ function setup() {
 	rectMode(CENTER);
 	imageMode(CENTER); // Set rotations
 	angleMode(DEGREES);
+	
+	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 }
 
@@ -101,6 +107,9 @@ function draw() {
 	if(inputHandler.zPress > 0)     inputHandler.zPress --;
 	if(inputHandler.xPress > 0)     inputHandler.xPress --;
 	
+	textSize(100);
+	fill(255);
+	text("Words", 100, 100);
 	
 }
 

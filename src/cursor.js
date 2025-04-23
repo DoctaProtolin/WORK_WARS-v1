@@ -10,6 +10,8 @@ class Cursor {
 		this.isLocked = false;
 		
 		this.drawDataWindow = false;
+		
+		this.selectedPiece = null;
 	}
 	
 	tileHasPiece() {
