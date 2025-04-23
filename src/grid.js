@@ -10,8 +10,8 @@ class Grid {
 		this.x = 100;
 		this.y = 100;
 		
-		this.dimX = 9;
-		this.dimY = 9;
+		this.dimX = 10;
+		this.dimY = 10;
 		
 		this.map = [
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

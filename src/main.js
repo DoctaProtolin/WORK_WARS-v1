@@ -55,9 +55,9 @@ let inputHandler = {
 	z:     false,
 	x:     false,
 	
-	upPress: PRESS_TIME,
-	downPress: PRESS_TIME,
-	leftPress: PRESS_TIME,
+	upPress:    PRESS_TIME,
+	downPress:  PRESS_TIME,
+	leftPress:  PRESS_TIME,
 	rightPress: PRESS_TIME,
 	zPress:     0,
 	xPress:     0,
@@ -69,7 +69,7 @@ function preload() {
 	tiles[0] = loadImage(assets.tiles.grass);
 	tiles[1] = loadImage(assets.tiles.river);
 	tiles[2] = loadImage(assets.tiles.mountain);
-	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross)];
+	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
 	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
 	sprites[1] = [loadImage(assets.sprites.penman_frame_1), loadImage(assets.sprites.penman_frame_2)];

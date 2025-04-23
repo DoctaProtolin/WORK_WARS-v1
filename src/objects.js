@@ -15,7 +15,7 @@ class Trooper {
 	constructor(grid, x, y, team) {
 		
 		if (team != BLOCKMAN && team != PENMAN) {
-			throw new Error("Assign a team, moron.");
+			throw new Error("Assign a team, moron!");
 		}
 		
 		this.x = x;

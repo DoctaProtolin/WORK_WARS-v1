@@ -67,7 +67,7 @@ function generateRoadTile(up, right, down, left) {
 	const STRAIGHT = 0;
 	const CORNER   = 1; // should be 1
 	const CROSS    = 2;
-	const T        = 2;
+	const T        = 3;
 	
 	switch (code) {
 		case 0: break;
@@ -102,8 +102,8 @@ function generateRoadTile(up, right, down, left) {
 			break;
 		
 		case 7: // 0111
-			angle = 90;
-			type  = CROSS;
+			angle = 0;
+			type  = T;
 			break;
 		
 		case 8: // 1000
@@ -122,7 +122,7 @@ function generateRoadTile(up, right, down, left) {
 			break;
 			
 		case 11: // 1011
-			angle = 0;
+			angle = 90;
 			type = T;
 			break;
 		
@@ -132,12 +132,12 @@ function generateRoadTile(up, right, down, left) {
 			break;
 			
 		case 13: // 1101
-			angle = 0;
+			angle = 180;
 			type = T;
 			break;
 		
 		case 14: // 1110
-			angle = 0;
+			angle = 270;
 			type  = T;
 			break;
 			
