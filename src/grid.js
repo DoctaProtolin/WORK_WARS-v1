@@ -10,22 +10,53 @@ class Grid {
 		this.x = 100;
 		this.y = 100;
 		
-		this.dimX = 7;
-		this.dimY = 3;
+		this.dimX = 9;
+		this.dimY = 9;
 		
 		this.map = [
-			[3, 1, 0, 0, 0, 0, 0],
-			[0, 0, 0, 2, 3, 3, 0],
-			[0, 0, 0, 0, 3, 3, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		];
 		
-		this.enemies = [
-			[3, 1, 3, 0, 0, 0, 0],
-			[0, 0, 0, 2, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0],
+		let objectMap = [
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		];
 		
-		// this.timTrooper = new Trooper(this, 0, 0);
+		this.enemies = [];
+		
+		for(let i = 0; i < this.dimY; i ++) {
+			for(let j = 0; j < this.dimX; j ++) {
+				let index = objectMap[i][j];
+				
+				let trooper = -1;
+				
+				switch (index) {
+					case 0: continue;
+					case 1: trooper = new Trooper(this, j, i, BLOCKMAN); break;
+					case 2: trooper = new Trooper(this, j, i, PENMAN); break;
+				}
+				
+				if (trooper != -1) this.enemies.push(trooper);
+			}
+		}
+		
 	}
 	
 	getScreenX(x) { return x * TILE_SIZE + this.x; };
@@ -98,7 +129,9 @@ class Grid {
 	}
 	
 	update() {
-		
+		for (let enemy of this.enemies) {
+			enemy.update();
+		}
 	}
 	
 	draw() {
@@ -108,6 +141,8 @@ class Grid {
 			this.drawGridlines();
 		}
 		
-		
+		for (let enemy of this.enemies) {
+			enemy.draw();
+		}
 	}
 }

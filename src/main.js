@@ -71,8 +71,8 @@ function preload() {
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross)];
 	
-	sprites[0] = [loadImage(assets.sprites.builder_frame_1), loadImage(assets.sprites.builder_frame_2)];
-	sprites[1] = [loadImage(assets.sprites.flat_frame_1), loadImage(assets.sprites.builder_frame_2)];
+	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
+	sprites[1] = [loadImage(assets.sprites.penman_frame_1), loadImage(assets.sprites.penman_frame_2)];
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
@@ -94,9 +94,9 @@ function draw() {
 	mainCursor.update();
 	mainCursor.draw();
 	
-	if(inputHandler.upPress > 0) inputHandler.upPress --;
-	if(inputHandler.downPress > 0) inputHandler.downPress --;
-	if(inputHandler.leftPress > 0) inputHandler.leftPress --;
+	if(inputHandler.upPress > 0)    inputHandler.upPress --;
+	if(inputHandler.downPress > 0)  inputHandler.downPress --;
+	if(inputHandler.leftPress > 0)  inputHandler.leftPress --;
 	if(inputHandler.rightPress > 0) inputHandler.rightPress --;
 	if(inputHandler.zPress > 0)     inputHandler.zPress --;
 	if(inputHandler.xPress > 0)     inputHandler.xPress --;
@@ -143,5 +143,6 @@ function keyReleased() {
 		case 39: inputHandler.right= false; break;
 		case 40: inputHandler.down = false; break;
 		case Z_CODE: inputHandler.z = false; break;
+		case X_CODE: inputHandler.x = false; break;
 	}
 }
