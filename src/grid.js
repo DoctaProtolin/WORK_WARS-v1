@@ -90,7 +90,7 @@ class Grid {
 		function notOnGoal() {
 			return (stepX != goalX || stepY != goalY) && stepNum < piece.mCost;
 		}
-		
+		stroke(0);
 		while (notOnGoal()) {
 			
 			if (stepX != goalX) {
@@ -101,8 +101,6 @@ class Grid {
 				} else {
 					if (this.isValidTile(stepX - 1, stepY)) stepX --;
 				}
-				
-				//step.
 				
 				let x = this.getScreenX(stepX);
 				let y = this.getScreenY(stepY);
@@ -137,7 +135,6 @@ class Grid {
 			}
 			
 		}
-		
 		
 		return {
 			goalX: stepX, // A little confusing with the names but ultimately a good choice for when I use these struct values.
