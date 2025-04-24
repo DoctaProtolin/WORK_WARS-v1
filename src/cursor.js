@@ -5,8 +5,8 @@ const FREE       = "free";
 const RESTRICTED = "restricted";
 const LOCKED     = "locked";
 
-const ACTION_ATTACK = 0;
-const ACTION_DECONSTRUCT = 1;
+const ACTION_ATTACK    = 0;
+const ACTION_MOVE      = 1;
 const ACTION_NEVERMIND = 2;
 
 const ACTION_NUM = 3;
@@ -48,6 +48,10 @@ class Cursor {
 		
 		if (this.usingCharActionMenu) {
 			
+			if (this.charActionIndex % ACTION_NUM == ACTION_MOVE && this.selectedPiece.moved) {
+				this.charActionIndex ++;
+			}
+			
 			if (!this.selectedPiece) {
 				console.error("Something's gone wrong.");
 			}
@@ -59,14 +63,17 @@ class Cursor {
 				switch (this.charActionIndex % ACTION_NUM) {
 					case ACTION_ATTACK:
 						console.error("Uh oh");
+						this.charActionIndex = 0;
 						break;
 						
-					case ACTION_DECONSTRUCT:
-						console.error("Uh oh");
+					case ACTION_MOVE:
+						this.movementType = FREE;
+						this.usingCharActionMenu = false;
+						this.charActionIndex = 0;
 						break;
 						
 					case ACTION_NEVERMIND:
-						this.charActionIndex = 0;
+					this.charActionIndex = 0;
 						this.usingCharActionMenu = false;
 						this.movementType = FREE;
 						this.selectedPiece = null;
@@ -86,21 +93,24 @@ class Cursor {
 					this.selectedPiece = null;
 					this.movementType  = FREE;
 					this.usingCharActionMenu = false;
+					
 				}
 				
-				if (this.selectedPiece.enable) {
-					return; // Don't change selection if piece is moving
-				}
+				if (this.selectedPiece) {
+					if (this.selectedPiece.enable) {
+						return; // Don't change selection if piece is moving
+					}
+				} else return;
 				
 				
 				if (this.x == this.selectedPiece.x && this.y == this.selectedPiece.y) { // Deselect piece
 					this.selectedPiece = null;
 					this.movementType  = FREE;
 					this.usingCharActionMenu = false;
-				}/* else {
+				} else {
 					this.selectedPiece.setTargetTile(this);
 					this.movementType = LOCKED;
-				}*/
+				}
 			} else {
 				let piece = this.grid.tileGetPiece(this.x, this.y);
 				
@@ -204,7 +214,7 @@ class Cursor {
 		let menuText = [];
 		
 		menuText[ACTION_ATTACK] = "ATTACK";
-		menuText[ACTION_DECONSTRUCT] = "DECONSTRUCT";
+		menuText[ACTION_MOVE] = "MOVE";
 		menuText[ACTION_NEVERMIND] = "NEVERMIND";
 		
 		textSize(20);
@@ -214,7 +224,9 @@ class Cursor {
 			fill((i%4)/3 * 255, (i%2) * 255, 0);
 			
 			let displayText = menuText[i];
-			if (this.charActionIndex == i) displayText = "<" + displayText; // Earthbound font has < and > flipped.
+			if (this.charActionIndex%ACTION_NUM == i) displayText = "<" + displayText; // Earthbound font has < and > flipped.
+			
+			if (i == ACTION_MOVE && this.selectedPiece.moved) fill(150, 150, 150);
 			
 			text(displayText, winX + 10, 30 * i + winY + 20, 10);
 		}
