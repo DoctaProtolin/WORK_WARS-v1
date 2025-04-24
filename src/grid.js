@@ -39,7 +39,7 @@ class Grid {
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		];
 		
-		this.enemies = [];
+		this.pieces = [];
 		
 		for(let i = 0; i < this.dimY; i ++) {
 			for(let j = 0; j < this.dimX; j ++) {
@@ -53,7 +53,7 @@ class Grid {
 					case 2: trooper = new Trooper(this, j, i, PENMAN); break;
 				}
 				
-				if (trooper != -1) this.enemies.push(trooper);
+				if (trooper != -1) this.pieces.push(trooper);
 			}
 		}
 		
@@ -61,6 +61,90 @@ class Grid {
 	
 	getScreenX(x) { return x * TILE_SIZE + this.x; };
 	getScreenY(y) { return y * TILE_SIZE + this.y; };
+	
+	tileGetPiece(x, y) {
+		for (let piece of this.pieces) {
+			if (piece.x == x && piece.y == y) return piece;
+		}
+		
+		return false;
+	}
+	
+	generatePathEnd(piece, goalX, goalY) { // Must be a grid function to check for valid movemet tiles.
+		let startX = piece.x;
+		let startY = piece.y;
+		
+		let stepX = startX;
+		let stepY = startY;
+		let stepNum = 0;
+		
+		let steps = [];
+		
+		
+		// Does not check for if a troop can move over a tile.
+		/* 
+			Remember to subtract a piece's mobility before ending up on a tile.
+			This'll prevent them from ending on a river when they should be ending before the river. Something like that.
+		*/
+		
+		function notOnGoal() {
+			return (stepX != goalX || stepY != goalY) && stepNum < piece.mCost;
+		}
+		
+		while (notOnGoal()) {
+			
+			if (stepX != goalX) {
+				stepNum ++;
+				
+				if (stepX < goalX) {
+					if (this.isValidTile(stepX + 1, stepY)) stepX ++;
+				} else {
+					if (this.isValidTile(stepX - 1, stepY)) stepX --;
+				}
+				
+				//step.
+				
+				let x = this.getScreenX(stepX);
+				let y = this.getScreenY(stepY);
+				
+				fill(255, 255, 255);
+				rect(x, y, TILE_SIZE, TILE_SIZE);
+				
+				steps.push({ goalX : stepX, goalY : stepY });
+			}
+			
+			if (!notOnGoal()) {
+				break;
+			}
+			
+			if (stepY != goalY) {
+				stepNum ++;
+				
+				if (stepY < goalY) {
+					if (this.isValidTile(stepX, stepY + 1)) stepY ++;
+				} else {
+					if (this.isValidTile(stepX, stepY - 1)) stepY --;
+				}
+				
+				let x = this.getScreenX(stepX);
+				let y = this.getScreenY(stepY);
+				
+				fill(255, 255, 255);
+				rect(x, y, TILE_SIZE, TILE_SIZE);
+				
+				steps.push({ goalX : stepX, goalY : stepY });
+				
+			}
+			
+		}
+		
+		
+		return {
+			goalX: stepX, // A little confusing with the names but ultimately a good choice for when I use these struct values.
+			goalY: stepY,
+			steps: steps,
+		}
+	}
 	
 	isValidTile(x, y) {
 		return x > -1 && x < this.dimX && y > -1 && y < this.dimY;
@@ -129,7 +213,7 @@ class Grid {
 	}
 	
 	update() {
-		for (let enemy of this.enemies) {
+		for (let enemy of this.pieces) {
 			enemy.update();
 		}
 	}
@@ -141,7 +225,7 @@ class Grid {
 			this.drawGridlines();
 		}
 		
-		for (let enemy of this.enemies) {
+		for (let enemy of this.pieces) {
 			enemy.draw();
 		}
 	}

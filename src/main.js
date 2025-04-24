@@ -172,3 +172,14 @@ function keyReleased() {
 		case G_CODE: inputHandler.g = false; break;
 	}
 }
+
+
+function linInterpolate (startX, startY, endX, endY, t) {
+	let displacementX = (endX - startX) * t;
+	let displacementY = (endY - startY) * t;
+	
+	return {
+		dispX: displacementX,
+		dispY: displacementY,
+	}
+}

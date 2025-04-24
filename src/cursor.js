@@ -14,9 +14,7 @@ class Cursor {
 		this.selectedPiece = null;
 	}
 	
-	tileHasPiece() {
-		return false;
-	}
+	
 	
 	handleInputMovement() {
 		if (inputHandler.upPress)    this.y --;
@@ -33,18 +31,29 @@ class Cursor {
 		
 		if (inputHandler.zPress) {
 			console.log("z press");
-			if (this.tileHasPiece()) {
-				console.error("Doesn't handle pieces yet.");
-			} else {
+			
+			if (!this.selectedPiece) {
+				let piece = this.grid.tileGetPiece(this.x, this.y);
 				
-				if (!this.drawDataWindow) {
-					if(this.grid.isValidTile(this.x, this.y)) {
-						this.drawDataWindow = true;
-					}
+				if (piece) {
+					this.selectedPiece = piece;
+					return;
 				} else {
-					this.drawDataWindow = false;
-				}
 				
+					if (!this.drawDataWindow) {
+						if(this.grid.isValidTile(this.x, this.y)) {
+							this.drawDataWindow = true;
+						}
+					} else {
+						this.drawDataWindow = false;
+					}
+				}
+			} else {
+				if (this.x == this.selectedPiece.x && this.y == this.selectedPiece.y) {
+					this.selectedPiece = null;
+				} else {
+					this.selectedPiece.setTargetTile();
+				}
 			}
 		}
 		
@@ -60,8 +69,18 @@ class Cursor {
 	}
 	
 	update() {
-		if (!this.isLocked && !this.drawDataWindow) this.handleInputMovement();
+		
+		if (this.selectedPiece) {
+			let goalSquare = this.grid.generatePathEnd(this.selectedPiece, this.x, this.y);
+			
+			let x = this.grid.getScreenX(this.x);
+			let y = this.grid.getScreenX(this.y);
+			
+		}
+		
+		if (!this.isLocked) this.handleInputMovement();
 		this.handleInputAction();
+		
 	}
 	
 	dataWindow() {
