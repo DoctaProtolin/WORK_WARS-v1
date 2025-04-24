@@ -193,7 +193,7 @@ class Cursor {
 	}
 	
 	drawCharActionMenu() {
-		let winX = this.grid.getScreenX(this.x) + TILE_SIZE * 1.25;
+		let winX = this.grid.getScreenX(this.x) + TILE_SIZE * 1.2;
 		let winY = this.grid.getScreenX(this.y);
 		
 		fill(255, 255, 255);
@@ -208,7 +208,7 @@ class Cursor {
 		menuText[ACTION_NEVERMIND] = "NEVERMIND";
 		
 		textSize(20);
-		;
+		
 		
 		for (let i = 0; i < menuText.length; i ++) {
 			fill((i%4)/3 * 255, (i%2) * 255, 0);
