@@ -26,6 +26,11 @@ class Cursor {
 	}
 	
 	handleInputAction() {
+		
+		if (inputHandler.gPress) {
+			drawGridlines = !drawGridlines;
+		}
+		
 		if (inputHandler.zPress) {
 			console.log("z press");
 			if (this.tileHasPiece()) {
@@ -66,9 +71,28 @@ class Cursor {
 		let originX = this.grid.x + TILE_SIZE * this.grid.dimX + TILE_SIZE/2;
 		let originY = this.grid.y;
 		
+		let width = 300;
+		let height = 300;
+		
 		rect(originX, originY, 200, 400);
 		
 		let tileData = getTileData(this.grid.getTile(this.x, this.y));
+		
+		for (let i = 0; i < width/TILE_SIZE; i ++ ) {
+			image(tiles[100], originX + i * TILE_SIZE, originY, TILE_SIZE, TILE_SIZE);
+		}
+		
+		for (let i = 0; i < width/TILE_SIZE; i ++ ) {
+			image(tiles[100], originX + i * TILE_SIZE, originY + height, TILE_SIZE, TILE_SIZE);
+		}
+		
+		for (let i = 0; i < height/TILE_SIZE; i ++ ) {
+			image(tiles[100], originX, originY + i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		}
+		
+		for(let i = 0; i < height/TILE_SIZE + 1; i ++ ) {
+			image(tiles[100], originX + width, originY + i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+		}
 		
 		stroke(1);
 		fill(0);
@@ -89,6 +113,7 @@ class Cursor {
 		
 		fill(255, 255, 255, 50);
 		rectMode(CENTER);
+		stroke(0);
 		rect(displayX, displayY, TILE_SIZE, TILE_SIZE);
 		
 	}

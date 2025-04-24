@@ -14,6 +14,8 @@
 	2 - mountain
 		
 	3 - road
+	
+	100 - border
 */
 
 function getTileData(index) {

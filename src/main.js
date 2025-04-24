@@ -30,12 +30,13 @@ I will only implement the ground tiles and add a block for the player. Then I'll
 */
 
 
-const LEFT  = 37;
-const UP    = 38;
-const DOWN  = 39;
-const RIGHT = 40;
+const LEFT   = 37;
+const UP     = 38;
+const DOWN   = 39;
+const RIGHT  = 40;
 const Z_CODE = 90;
 const X_CODE = 88;
+const G_CODE = 71;
 
 const PRESS_TIME = 1;
 
@@ -43,6 +44,7 @@ const PRESS_TIME = 1;
 let tiles = [];
 let sprites = [];
 
+let heartImage;
 let earthboundFont;
 
 let gridSam = new Grid();
@@ -63,6 +65,7 @@ let inputHandler = {
 	rightPress: PRESS_TIME,
 	zPress:     0,
 	xPress:     0,
+	gPress:     0,
 }
 
 
@@ -72,11 +75,14 @@ function preload() {
 	tiles[1] = loadImage(assets.tiles.river);
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
+	tiles[100] = loadImage(assets.tiles.border);
 	
 	earthboundFont = loadFont(assets.font.earthbound);
 	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
-	sprites[1] = [loadImage(assets.sprites.penman_frame_1), loadImage(assets.sprites.penman_frame_2)];
+	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2)];
+	
+	heartImage = loadImage(assets.ui.heart);
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
@@ -106,10 +112,14 @@ function draw() {
 	if(inputHandler.rightPress > 0) inputHandler.rightPress --;
 	if(inputHandler.zPress > 0)     inputHandler.zPress --;
 	if(inputHandler.xPress > 0)     inputHandler.xPress --;
+	if(inputHandler.gPress > 0)     inputHandler.gPress --;
 	
 	textSize(100);
 	fill(255);
 	text("Words", 100, 100);
+	
+	
+	image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
 	
 }
 
@@ -141,6 +151,12 @@ function keyPressed() {
 		case X_CODE:
 			inputHandler.x = true;
 			inputHandler.xPress = PRESS_TIME;
+			break;
+		
+		case G_CODE:
+			inputHandler.g = true;
+			inputHandler.gPress = PRESS_TIME;
+			break;
 			
 	}
 }
@@ -153,5 +169,6 @@ function keyReleased() {
 		case 40: inputHandler.down = false; break;
 		case Z_CODE: inputHandler.z = false; break;
 		case X_CODE: inputHandler.x = false; break;
+		case G_CODE: inputHandler.g = false; break;
 	}
 }
