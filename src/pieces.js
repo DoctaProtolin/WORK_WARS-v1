@@ -3,6 +3,8 @@
 const BLOCKMAN = "blockman";
 const PENMAN = "penman";
 
+const ANIM_IDLE = 0;
+
 /*
 	TILES
 	0 - blockman
@@ -47,6 +49,8 @@ class Trooper {
 		this.steps = [];
 		this.movementIndex = 0;
 		this.tStep = 0;
+		
+		this.animation = ANIM_IDLE;
 	}
 	
 	setTargetTile(cursor) {
