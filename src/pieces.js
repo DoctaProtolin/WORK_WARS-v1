@@ -46,6 +46,14 @@ class Trooper {
 			y: 0,
 		}
 		
+		this.animTimers = {
+			idleTimer: 60,
+		}
+		
+		this.animData = {
+			idleSprite: true, // easier to manipulate
+		}
+		
 		this.steps = [];
 		this.movementIndex = 0;
 		this.tStep = 0;
@@ -77,6 +85,9 @@ class Trooper {
 	
 	draw() {
 		
+		let displayX = this.grid.getScreenX(this.x);
+		let displayY = this.grid.getScreenY(this.y);
+		
 		if (this.enable) {
 			
 			if (this.movementIndex >= this.steps.length) {
@@ -94,6 +105,9 @@ class Trooper {
 			
 			this.tStep += 0.1;
 			
+			displayX += Math.trunc(disp.dispX/10) * 10;
+			displayY += Math.trunc(disp.dispY/10) * 10;
+			
 			if (this.tStep >= 1) {
 				this.x = this.steps[this.movementIndex].goalX;
 				this.y = this.steps[this.movementIndex].goalY;
@@ -103,10 +117,22 @@ class Trooper {
 			}
 		}
 		
-		if (this.team == BLOCKMAN) {
-			image(sprites[0][0], this.grid.getScreenX(this.x), this.grid.getScreenY(this.y), TILE_SIZE, TILE_SIZE);
-		} else {
-			image(sprites[1][0], this.grid.getScreenX(this.x), this.grid.getScreenY(this.y), TILE_SIZE, TILE_SIZE);
+		this.animTimers.idleTimer --;
+		
+		if(this.animTimers.idleTimer < 0) {
+			this.animData.idleSprite = !this.animData.idleSprite;	
+			this.animTimers.idleTimer  = 60;
 		}
+		
+		let displaySprite;
+		
+		
+		if (this.team == BLOCKMAN) {
+			displaySprite = sprites[0][this.animData.idleSprite?1:0];
+		} else {
+			displaySprite = sprites[1][this.animData.idleSprite?1:0];
+		}
+		
+		image(displaySprite, displayX, displayY, TILE_SIZE, TILE_SIZE);
 	}
 }
