@@ -148,6 +148,9 @@ class Grid {
 	}
 	
 	getTile(x, y) {
+		
+		if (!this.isValidTile(x, y)) return -1;
+		
 		return this.map[y][x];
 	}
 	

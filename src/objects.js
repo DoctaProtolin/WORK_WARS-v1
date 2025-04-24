@@ -29,7 +29,12 @@ class Trooper {
 		
 		this.grid = grid;
 		
+		// Constants
 		this.mCost = 10;
+		
+		// Game variables
+		this.attack = 10;
+		this.health = 10;
 		
 		this.moved = false;
 		this.enable = false;
@@ -44,20 +49,20 @@ class Trooper {
 		this.tStep = 0;
 	}
 	
-	setTargetTile() {
+	setTargetTile(cursor) {
 		
 		if (this.moved) {
 			console.error("Cannot move/piece has already been moved");
 			return;
 		}
 		
-		this.steps = this.grid.generatePathEnd(this, mainCursor.x, mainCursor.y).steps;
+		this.steps = this.grid.generatePathEnd(this, cursor.x, cursor.y).steps;
 		console.log(this.steps);
 		this.movementIndex = 0;
 		this.tStep = 0;
 		
 		this.enable = true;
-		this.moved = false;
+		this.moved  = true;
 	}
 	
 	update() {
@@ -83,7 +88,7 @@ class Trooper {
 			
 			let disp = linInterpolate(x, y, endX, endY, this.tStep);
 			
-			this.tStep += 0.05;
+			this.tStep += 0.1;
 			
 			if (this.tStep >= 1) {
 				this.x = this.steps[this.movementIndex].goalX;

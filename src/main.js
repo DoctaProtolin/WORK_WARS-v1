@@ -48,7 +48,7 @@ let heartImage;
 let earthboundFont;
 
 let gridSam = new Grid();
-let mainCursor = new Cursor(gridSam, 0, 0);
+let playerCursor = new Cursor(gridSam, 0, 0);
 
 let inputHandler = {
 	up:    false,
@@ -103,8 +103,8 @@ function draw() {
 	gridSam.update();
 	gridSam.draw();
 	
-	mainCursor.update();
-	mainCursor.draw();
+	playerCursor.update();
+	playerCursor.draw();
 	
 	if(inputHandler.upPress > 0)    inputHandler.upPress --;
 	if(inputHandler.downPress > 0)  inputHandler.downPress --;
