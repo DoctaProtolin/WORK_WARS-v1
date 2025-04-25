@@ -94,6 +94,8 @@ class Grid {
 		return false;
 	}
 	
+	
+	
 	generatePathEnd(piece, goalX, goalY) { // Must be a grid function to check for valid movemet tiles.
 		let startX = piece.x;
 		let startY = piece.y;
@@ -179,6 +181,25 @@ class Grid {
 		}
 		
 		return true;
+	}
+	
+	isAttackTile(pieceX, pieceY, targetX, targetY) {
+		if (!this.isValidTile(targetX, targetY)) return false;
+		
+		let attackTiles = [
+			[pieceX, pieceY - 1],
+			[pieceX, pieceY + 1],
+			[pieceX - 1, pieceY],
+			[pieceX - 1, pieceY]
+		];
+		
+		for (let coords of attackTiles) {
+			if (coords[0] == targetX && coords[1] == targetY) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	

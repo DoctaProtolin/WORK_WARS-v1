@@ -35,8 +35,9 @@ class Trooper {
 		// Game variables
 		this.mCost = 10;
 
-		this.attack = 10;
-		this.health = 10;
+		this.maxHealth = 10;
+		this.attack = 3;
+		this.health = this.maxHealth;
 		
 		// State variables
 		this.moved  = false;
@@ -76,6 +77,24 @@ class Trooper {
 		
 		this.enable = true;
 		this.moved  = true;
+	}
+	
+	performAttack(enemy) {
+		
+		if (!this.grid.isAttackTile(enemy.x, enemy.y, this.x, this.y)) return;
+		
+		let enemyTileData = getTileData(this.grid.getTile(enemy.x, enemy.y));
+		let tileData = getTileData(this.grid.getTile(this.x, this.y));
+		
+		let enemyDef = enemyTileData.defense;
+		let def      = tileData.defense;
+		
+		
+		this.health  -= enemy.attack - this.health*def/10;
+		enemy.health -= this.attack - enemyDef/10;
+		
+		this.health  = min(this.health, this.maxHealth); // Learned this from reading Hysteria's code
+		enemy.health = min(enemy.health, enemy.maxHealth);
 	}
 	
 	update() {
@@ -136,5 +155,9 @@ class Trooper {
 		}
 		
 		image(displaySprite, displayX, displayY, TILE_SIZE, TILE_SIZE);
+		
+		textSize(20);
+		fill(255, 50, 0);
+		text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
 	}
 }

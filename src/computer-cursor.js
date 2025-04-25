@@ -5,6 +5,7 @@
 
 const FIND_CLOSEST = "find-closest";
 const ACTION_CLOSEST = "action-closest";
+const ACTION_SECONDARY = "action-secondary";
 
 
 class ComputerCursor {
@@ -55,18 +56,23 @@ class ComputerCursor {
 					this.y = this.pAttack.y;
 					this.bAttack.setTargetTile(this); // takes in cursor coords as arguments
 					this.state = ACTION_CLOSEST;
+				} else {
+					
 				}
 				break;
 				
-			case ACTION_CLOSEST:
-				
+			case ACTION_CLOSEST: // Wait for it to finish an action
 				
 				if (!this.bAttack.enable && this.bAttack.moved) {
-					this.state = FIND_CLOSEST;
+					this.state = ACTION_SECONDARY;
 				}
-				
 				break;
-				
+			
+			case ACTION_SECONDARY:
+				console.log(this.bAttack);
+				this.bAttack.performAttack(this.pAttack);
+				this.state = FIND_CLOSEST;
+				break;
 			
 			
 		}
