@@ -125,6 +125,20 @@ function draw() {
 	if (endTurnTrigger) {
 		endTurnTrigger = false;
 		isPlayerTurn = !isPlayerTurn;
+		
+		
+		playerCursor = new Cursor(gridSam, playerCursor.x, playerCursor.y, true);
+			console.log("reset player cursor");
+		computerCursor = new ComputerCursor(gridSam, computerCursor.x, computerCursor.y);
+		
+		for (let blockman of gridSam.getBlockmen()) {
+			blockman.moved = false;
+		}
+		
+		for (let penman of gridSam.getPenmen()) {
+			penman.moved = false;
+		}
+		
 		turns ++;
 	}
 	

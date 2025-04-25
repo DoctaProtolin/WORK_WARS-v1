@@ -24,9 +24,25 @@ class ComputerCursor {
 		
 		this.pAttack = null;
 		this.bAttack = null;
+		
+		this.doneWithPiece = 0; // counter for pieces moved (not literally moved but moved and used)
 	}
 	
 	update() {
+		
+		let piecesMoved = 0;
+		for (let blockman of this.grid.getBlockmen()) {
+			if (blockman.moved) piecesMoved ++;
+		}
+		
+		if (this.doneWithPiece >= this.grid.getBlockmen().length) {
+			endTurnTrigger = true;
+			this.doneWithPiece = 0;
+			return;
+		}
+		
+		console.log(this.state);
+		
 		switch (this.state) {
 			
 			case FIND_CLOSEST:
@@ -42,19 +58,20 @@ class ComputerCursor {
 					for (let block of blockmen) {
 						let newDist = dist(pen.x, pen.y, block.x, block.y);
 						
-						if (newDist < maxDist && !block.moved) {
+						if (newDist <= maxDist && !block.moved) {
 							maxDist = newDist;
 							this.pAttack = pen;
 							this.bAttack = block;
 						}
 					}
 				}
-				console.log("Computercursor: found closest");
+				
 				
 				if (this.bAttack) {
 					this.x = this.pAttack.x;
 					this.y = this.pAttack.y;
 					this.bAttack.setTargetTile(this); // takes in cursor coords as arguments
+					console.log("Welp gang");
 					this.state = ACTION_CLOSEST;
 				} else {
 					
@@ -72,6 +89,7 @@ class ComputerCursor {
 				console.log(this.bAttack);
 				this.bAttack.performAttack(this.pAttack);
 				this.state = FIND_CLOSEST;
+				this.doneWithPiece ++;
 				break;
 			
 			

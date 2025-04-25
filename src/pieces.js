@@ -90,11 +90,12 @@ class Trooper {
 		let def      = tileData.defense;
 		
 		
-		this.health  -= enemy.attack - this.health*def/10;
-		enemy.health -= this.attack - enemyDef/10;
+		this.health  -= enemy.attack;
+		enemy.health -= this.attack;
 		
 		this.health  = min(this.health, this.maxHealth); // Learned this from reading Hysteria's code
 		enemy.health = min(enemy.health, enemy.maxHealth);
+		console.log("Performed attack");
 	}
 	
 	update() {

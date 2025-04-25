@@ -27,15 +27,15 @@ class Grid {
 		];
 		
 		let objectMap = [
+			[0, 2, 2, 2, 2, 2, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-			[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 1, 1, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 1, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 2, 2, 0],
-			[0, 0, 0, 0, 0, 0, 0, 2, 2, 0],
+			[0, 0, 0, 0, 0, 0, 0, 1, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		];
 		
@@ -190,7 +190,7 @@ class Grid {
 			[pieceX, pieceY - 1],
 			[pieceX, pieceY + 1],
 			[pieceX - 1, pieceY],
-			[pieceX - 1, pieceY]
+			[pieceX + 1, pieceY]
 		];
 		
 		for (let coords of attackTiles) {
@@ -269,9 +269,17 @@ class Grid {
 	}
 	
 	update() {
-		for (let enemy of this.pieces) {
+		for (let i in this.pieces) {
+			let enemy = this.pieces[i];
+			if (!enemy) continue;
 			enemy.update();
+			
+			if (enemy.health <= 0) {
+				this.pieces.splice(i, 1);
+			}
 		}
+		
+		
 	}
 	
 	draw() {
@@ -282,6 +290,7 @@ class Grid {
 		}
 		
 		for (let enemy of this.pieces) {
+			if (!enemy) continue;
 			enemy.draw();
 		}
 	}

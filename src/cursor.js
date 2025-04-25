@@ -187,6 +187,12 @@ class Cursor {
 		this.handleInputMovement();
 		this.handleInputAction();
 		
+		if (this.movementType == LOCKED) {
+			if (!this.selectedPiece) return;
+			this.x = this.selectedPiece.x;
+			this.y = this.selectedPiece.y;
+		}
+		
 	}
 	
 	dataWindow() {
