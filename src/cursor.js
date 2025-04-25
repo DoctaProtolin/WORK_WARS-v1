@@ -120,7 +120,7 @@ class Cursor {
 				}
 				
 				if (this.selectedPiece) {
-					if (this.selectedPiece.enable) {
+					if (this.selectedPiece.enabled) {
 						return; // Don't change selection if piece is moving
 					}
 				} else return;
@@ -131,8 +131,12 @@ class Cursor {
 					this.movementType  = FREE;
 					this.usingCharActionMenu = false;
 				} else {
-					this.selectedPiece.setTargetTile(this);
-					this.movementType = LOCKED;
+					if (this.grid.isEmptyTile(this.x, this.y)) {
+						this.selectedPiece.setTargetTile(this);
+						this.movementType = LOCKED;
+					} else {
+						console.log("Tile is not empty.");
+					}
 				}
 			} else {
 				let piece = this.grid.tileGetPiece(this.x, this.y);

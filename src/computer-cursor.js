@@ -41,7 +41,7 @@ class ComputerCursor {
 					for (let block of blockmen) {
 						let newDist = dist(pen.x, pen.y, block.x, block.y);
 						
-						if (newDist < maxDist) {
+						if (newDist < maxDist && !block.moved) {
 							maxDist = newDist;
 							this.pAttack = pen;
 							this.bAttack = block;
@@ -49,15 +49,24 @@ class ComputerCursor {
 					}
 				}
 				console.log("Computercursor: found closest");
-				this.state = ACTION_CLOSEST;
+				
+				if (this.bAttack) {
+					this.x = this.pAttack.x;
+					this.y = this.pAttack.y;
+					this.bAttack.setTargetTile(this); // takes in cursor coords as arguments
+					this.state = ACTION_CLOSEST;
+				}
 				break;
 				
 			case ACTION_CLOSEST:
-				this.x = this.pAttack.x;
-				this.y = this.pAttack.y;
-				this.bAttack.setTargetTile(this); // takes in cursor coords as arguments
+				
+				
+				if (!this.bAttack.enable && this.bAttack.moved) {
+					this.state = FIND_CLOSEST;
+				}
 				
 				break;
+				
 			
 			
 		}

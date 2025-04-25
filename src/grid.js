@@ -121,9 +121,9 @@ class Grid {
 				stepNum ++;
 				
 				if (stepX < goalX) {
-					if (this.isValidTile(stepX + 1, stepY)) stepX ++;
+					if (this.isEmptyTile(stepX + 1, stepY)) stepX ++;
 				} else {
-					if (this.isValidTile(stepX - 1, stepY)) stepX --;
+					if (this.isEmptyTile(stepX - 1, stepY)) stepX --;
 				}
 				
 				let x = this.getScreenX(stepX);
@@ -143,9 +143,9 @@ class Grid {
 				stepNum ++;
 				
 				if (stepY < goalY) {
-					if (this.isValidTile(stepX, stepY + 1)) stepY ++;
+					if (this.isEmptyTile(stepX, stepY + 1)) stepY ++;
 				} else {
-					if (this.isValidTile(stepX, stepY - 1)) stepY --;
+					if (this.isEmptyTile(stepX, stepY - 1)) stepY --;
 				}
 				
 				let x = this.getScreenX(stepX);
@@ -170,6 +170,17 @@ class Grid {
 	isValidTile(x, y) {
 		return x > -1 && x < this.dimX && y > -1 && y < this.dimY;
 	}
+	
+	isEmptyTile(x, y) {
+		if (!this.isValidTile(x, y)) return false;
+		
+		for (let piece of this.pieces) {
+			if (piece.x == x && piece.y == y) return false;
+		}
+		
+		return true;
+	}
+	
 	
 	getTile(x, y) {
 		

@@ -32,14 +32,14 @@ class Trooper {
 		
 		this.grid = grid;
 		
-		// Constants
-		this.mCost = 10;
-		
 		// Game variables
+		this.mCost = 10;
+
 		this.attack = 10;
 		this.health = 10;
 		
-		this.moved = false;
+		// State variables
+		this.moved  = false;
 		this.enable = false;
 		
 		this.goalTile = {
@@ -47,9 +47,7 @@ class Trooper {
 			y: 0,
 		}
 		
-		this.animTimers = {
-			idleTimer: 60,
-		}
+		this.animTimer = 0;
 		
 		this.animData = {
 			idleSprite: true, // easier to manipulate
@@ -63,6 +61,8 @@ class Trooper {
 	}
 	
 	setTargetTile(cursor) {
+		
+		if (this.moved) return;
 		
 		if (this.moved) {
 			console.error("Cannot move/piece has already been moved");
@@ -103,9 +103,9 @@ class Trooper {
 			
 			let disp = linInterpolate(x, y, endX, endY, this.tStep);
 			
-			this.tStep += 0.1;
+			this.tStep += 0.2;
 			
-			let framerateControl = 5;
+			let framerateControl = 8;
 			
 			displayX += Math.trunc(disp.dispX/framerateControl) * framerateControl;
 			displayY += Math.trunc(disp.dispY/framerateControl) * framerateControl;
@@ -119,11 +119,11 @@ class Trooper {
 			}
 		}
 		
-		this.animTimers.idleTimer --;
+		this.animTimer --;
 		
-		if(this.animTimers.idleTimer < 0) {
+		if(this.animTimer < 0) {
 			this.animData.idleSprite = !this.animData.idleSprite;	
-			this.animTimers.idleTimer  = 60;
+			this.animTimer  = 60;
 		}
 		
 		let displaySprite;
