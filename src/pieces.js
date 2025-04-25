@@ -2,6 +2,7 @@
 
 const BLOCKMAN = "blockman";
 const PENMAN = "penman";
+const NOTEAM = "no-team";
 
 const ANIM_IDLE = 0;
 
@@ -80,7 +81,6 @@ class Trooper {
 	update() {
 		
 		
-		
 	}
 	
 	draw() {
@@ -105,8 +105,10 @@ class Trooper {
 			
 			this.tStep += 0.1;
 			
-			displayX += Math.trunc(disp.dispX/10) * 10;
-			displayY += Math.trunc(disp.dispY/10) * 10;
+			let framerateControl = 5;
+			
+			displayX += Math.trunc(disp.dispX/framerateControl) * framerateControl;
+			displayY += Math.trunc(disp.dispY/framerateControl) * framerateControl;
 			
 			if (this.tStep >= 1) {
 				this.x = this.steps[this.movementIndex].goalX;

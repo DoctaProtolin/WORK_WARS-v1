@@ -8,11 +8,12 @@ const LOCKED     = "locked";
 const ACTION_ATTACK    = 0;
 const ACTION_MOVE      = 1;
 const ACTION_NEVERMIND = 2;
+const ACTION_END_TURN  = 3;
 
-const ACTION_NUM = 3;
+const ACTION_NUM = 4;
 
 class Cursor {
-	constructor(grid, x, y) {
+	constructor(grid, x, y, isPlayerCursor) {
 		this.grid = grid;
 		this.x = x;
 		this.y = y;
@@ -27,14 +28,25 @@ class Cursor {
 		
 		this.selectedPiece = null;
 		this.movementType = FREE;
+		this.isPlayerCursor = isPlayerCursor;
 	}
 	
 	handleInputMovement() {
 		if (this.movementType == FREE) {
-			if (inputHandler.upPress)    this.y --;
-			if (inputHandler.downPress)  this.y ++;
-			if (inputHandler.leftPress)  this.x --;
-			if (inputHandler.rightPress) this.x ++;
+			if (inputHandler.upPress)    {
+				if (this.grid.isValidTile(this.x, this.y-1)) this.y --;
+			}
+			if (inputHandler.downPress) {
+				if (this.grid.isValidTile(this.x, this.y+1)) this.y ++;
+			}
+			
+			if (inputHandler.leftPress) {
+				if (this.grid.isValidTile(this.x-1, this.y)) this.x --;
+			}
+			
+			if (inputHandler.rightPress) {
+				if (this.grid.isValidTile(this.x+1, this.y)) this.x ++;
+			}
 		} else if (this.movementType == LOCKED) {
 			
 		}
@@ -59,6 +71,10 @@ class Cursor {
 			if (inputHandler.upPress) this.charActionIndex --;
 			else if (inputHandler.downPress) this.charActionIndex ++;
 			
+			if (this.charActionIndex < 0) {
+				this.charActionIndex = ACTION_NUM;
+			}
+			
 			if (inputHandler.zPress) {
 				switch (this.charActionIndex % ACTION_NUM) {
 					case ACTION_ATTACK:
@@ -73,10 +89,18 @@ class Cursor {
 						break;
 						
 					case ACTION_NEVERMIND:
-					this.charActionIndex = 0;
+						this.charActionIndex = 0;
 						this.usingCharActionMenu = false;
 						this.movementType = FREE;
 						this.selectedPiece = null;
+						break;
+						
+					case ACTION_END_TURN:
+						this.charActionIndex = 0;
+						this.usingCharActionMenu = false;
+						this.movementType = FREE;
+						this.selectedPiece = null;
+						endTurnTrigger = true;
 						break;
 				}
 			}
@@ -93,7 +117,6 @@ class Cursor {
 					this.selectedPiece = null;
 					this.movementType  = FREE;
 					this.usingCharActionMenu = false;
-					
 				}
 				
 				if (this.selectedPiece) {
@@ -115,6 +138,8 @@ class Cursor {
 				let piece = this.grid.tileGetPiece(this.x, this.y);
 				
 				if (piece) {
+					console.log(piece);
+					if (piece.team != PENMAN) return;
 					this.selectedPiece = piece;
 					this.usingCharActionMenu = true;
 					this.movementType = LOCKED;
@@ -153,7 +178,6 @@ class Cursor {
 			if (!this.selectedPiece.moved && !this.selectedPiece.enabled) {
 				let goalSquare = this.grid.generatePathEnd(this.selectedPiece, this.x, this.y);
 			}
-			
 		}
 		
 		this.handleInputMovement();
@@ -175,19 +199,19 @@ class Cursor {
 		
 		let tileData = getTileData(this.grid.getTile(this.x, this.y));
 		
-		for (let i = 0; i < width/TILE_SIZE; i ++ ) {
+		for (let i = 0; i < width/TILE_SIZE; i ++) {
 			image(tiles[100], originX + i * TILE_SIZE, originY, TILE_SIZE, TILE_SIZE);
 		}
 		
-		for (let i = 0; i < width/TILE_SIZE; i ++ ) {
+		for (let i = 0; i < width/TILE_SIZE; i ++) {
 			image(tiles[100], originX + i * TILE_SIZE, originY + height, TILE_SIZE, TILE_SIZE);
 		}
 		
-		for (let i = 0; i < height/TILE_SIZE; i ++ ) {
+		for (let i = 0; i < height/TILE_SIZE; i ++) {
 			image(tiles[100], originX, originY + i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		}
 		
-		for(let i = 0; i < height/TILE_SIZE + 1; i ++ ) {
+		for(let i = 0; i < height/TILE_SIZE + 1; i ++) {
 			image(tiles[100], originX + width, originY + i * TILE_SIZE, TILE_SIZE, TILE_SIZE);
 		}
 		
@@ -216,6 +240,7 @@ class Cursor {
 		menuText[ACTION_ATTACK] = "ATTACK";
 		menuText[ACTION_MOVE] = "MOVE";
 		menuText[ACTION_NEVERMIND] = "NEVERMIND";
+		menuText[ACTION_END_TURN]  = "END_TURN";
 		
 		textSize(20);
 		

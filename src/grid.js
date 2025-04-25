@@ -16,7 +16,7 @@ class Grid {
 		this.map = [
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 4, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,14 +28,14 @@ class Grid {
 		
 		let objectMap = [
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 1, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 2, 0, 0, 0, 0, 0, 0],
+			[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
+			[0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+			[0, 0, 0, 0, 0, 0, 0, 2, 2, 0],
+			[0, 0, 0, 0, 0, 0, 0, 2, 2, 0],
 			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 		];
 		
@@ -61,6 +61,30 @@ class Grid {
 	
 	getScreenX(x) { return x * TILE_SIZE + this.x; };
 	getScreenY(y) { return y * TILE_SIZE + this.y; };
+	
+	getBlockmen() {
+		let b = [];
+		
+		for (let piece of this.pieces) {
+			if (piece.team == BLOCKMAN) {
+				b.push(piece);
+			}
+		}
+		
+		return b;
+	}
+	
+	getPenmen() {
+		let b = [];
+		
+		for (let piece of this.pieces) {
+			if (piece.team == PENMAN) {
+				b.push(piece);
+			}
+		}
+		
+		return b;
+	}
 	
 	tileGetPiece(x, y) {
 		for (let piece of this.pieces) {

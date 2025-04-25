@@ -15,6 +15,8 @@
 		
 	3 - road
 	
+	4 - wood
+	
 	100 - border
 */
 
@@ -39,13 +41,19 @@ function getTileData(index) {
 		case 2:
 			name = "MOUNTAIN";
 			mCost = 3;
-			defense = 2;
+			defense = 3;
 			break;
 		
 		case 3:
 			name = "ROAD";
 			mCost = 1;
 			defense = 0;
+			break;
+			
+		case 4:
+			name = "WOOD";
+			mCost = 1;
+			defense = 2;
 			break;
 		
 		default:

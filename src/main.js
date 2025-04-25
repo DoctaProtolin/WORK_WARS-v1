@@ -44,11 +44,18 @@ const PRESS_TIME = 1;
 let tiles = [];
 let sprites = [];
 
-let heartImage;
+let heartImage, bootImage;
 let earthboundFont;
 
 let gridSam = new Grid();
-let playerCursor = new Cursor(gridSam, 0, 0);
+let playerCursor = new Cursor(gridSam, 0, 0, true);
+let computerCursor = new ComputerCursor(gridSam, 0, 0, false);
+
+let isPlayerTurn = true;
+
+let endTurnTrigger = false;
+
+let turns = 1;
 
 let inputHandler = {
 	up:    false,
@@ -75,6 +82,9 @@ function preload() {
 	tiles[1] = loadImage(assets.tiles.river);
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
+	tiles[4] = loadImage(assets.tiles.wood);
+	
+	
 	tiles[100] = loadImage(assets.tiles.border);
 	
 	earthboundFont = loadFont(assets.font.earthbound);
@@ -83,6 +93,7 @@ function preload() {
 	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2)];
 	
 	heartImage = loadImage(assets.ui.heart);
+	bootImage  = loadImage(assets.ui.boot);
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
@@ -103,16 +114,27 @@ function draw() {
 	gridSam.update();
 	gridSam.draw();
 	
-	playerCursor.update();
-	playerCursor.draw();
+	if (isPlayerTurn) {
+		playerCursor.update();
+		playerCursor.draw();
+	} else {
+		computerCursor.update();
+		computerCursor.draw();
+	}
 	
-	if(inputHandler.upPress > 0)    inputHandler.upPress --;
-	if(inputHandler.downPress > 0)  inputHandler.downPress --;
-	if(inputHandler.leftPress > 0)  inputHandler.leftPress --;
-	if(inputHandler.rightPress > 0) inputHandler.rightPress --;
-	if(inputHandler.zPress > 0)     inputHandler.zPress --;
-	if(inputHandler.xPress > 0)     inputHandler.xPress --;
-	if(inputHandler.gPress > 0)     inputHandler.gPress --;
+	if (endTurnTrigger) {
+		endTurnTrigger = false;
+		isPlayerTurn = !isPlayerTurn;
+		turns ++;
+	}
+	
+	if (inputHandler.upPress > 0)    inputHandler.upPress --;
+	if (inputHandler.downPress > 0)  inputHandler.downPress --;
+	if (inputHandler.leftPress > 0)  inputHandler.leftPress --;
+	if (inputHandler.rightPress > 0) inputHandler.rightPress --;
+	if (inputHandler.zPress > 0)     inputHandler.zPress --;
+	if (inputHandler.xPress > 0)     inputHandler.xPress --;
+	if (inputHandler.gPress > 0)     inputHandler.gPress --;
 	
 	textSize(100);
 	fill(255);
