@@ -94,7 +94,6 @@ function preload() {
 	heartImage = loadImage(assets.ui.heart);
 	bootImage  = loadImage(assets.ui.boot);
 	
-	
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
@@ -108,7 +107,7 @@ function setup() {
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 	
-	titleMusic = new Sound("./mus/Title.mp3", 0);
+	titleMusic = new Sound("./mus/Title.mp3", 16.274); // loop: 16.274
 	
 }
 
@@ -132,7 +131,7 @@ function draw() {
 		
 		
 		playerCursor = new Cursor(gridSam, playerCursor.x, playerCursor.y, true);
-			console.log("reset player cursor");
+		console.log("reset player cursor");
 		computerCursor = new ComputerCursor(gridSam, computerCursor.x, computerCursor.y);
 		
 		for (let blockman of gridSam.getBlockmen()) {
@@ -146,6 +145,8 @@ function draw() {
 		turns ++;
 	}
 	
+	titleMusic.loop();
+	
 	if (inputHandler.upPress > 0)    inputHandler.upPress --;
 	if (inputHandler.downPress > 0)  inputHandler.downPress --;
 	if (inputHandler.leftPress > 0)  inputHandler.leftPress --;
@@ -153,10 +154,6 @@ function draw() {
 	if (inputHandler.zPress > 0)     inputHandler.zPress --;
 	if (inputHandler.xPress > 0)     inputHandler.xPress --;
 	if (inputHandler.gPress > 0)     inputHandler.gPress --;
-	
-	textSize(100);
-	fill(255);
-	text("Words", 100, 100);
 	
 	
 	image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
