@@ -256,7 +256,7 @@ class Cursor {
 		
 		
 		for (let i = 0; i < menuText.length; i ++) {
-			fill((i%4)/3 * 255, (i%2) * 255, 0);
+			fill((i%4)/3 * 255, (i%2) * 255, (i%3)/2 * 255);
 			
 			let displayText = menuText[i];
 			if (this.charActionIndex%ACTION_NUM == i) displayText = "<" + displayText; // Earthbound font has < and > flipped.

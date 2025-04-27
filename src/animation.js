@@ -7,8 +7,8 @@
 
 class Animation {
 	constructor() {
-		this.frame= -1;
-		this.frames= [];
+		this.frame  = -1;
+		this.frames = [];
 	}
 
 	addFrame(action, onStart, d) {

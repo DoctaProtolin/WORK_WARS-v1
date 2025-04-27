@@ -40,21 +40,20 @@ const G_CODE = 71;
 
 const PRESS_TIME = 1;
 
-
 let tiles = [];
 let sprites = [];
 
+// Image vars
 let heartImage, bootImage;
 let earthboundFont;
+let titleMusic;
 
 let gridSam = new Grid();
 let playerCursor = new Cursor(gridSam, 0, 0, true);
 let computerCursor = new ComputerCursor(gridSam, 0, 0, false);
 
 let isPlayerTurn = true;
-
 let endTurnTrigger = false;
-
 let turns = 1;
 
 let inputHandler = {
@@ -94,6 +93,10 @@ function preload() {
 	
 	heartImage = loadImage(assets.ui.heart);
 	bootImage  = loadImage(assets.ui.boot);
+	
+	
+	soundFormats("mp3");
+	titleMusic = loadSound(assets.music.title);
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	

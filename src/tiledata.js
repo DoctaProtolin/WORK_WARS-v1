@@ -28,7 +28,7 @@ function getTileData(index) {
 	switch (index) {
 		case 0:
 			name = "GRASS";
-			mCost = 0;
+			mCost = 1;
 			defense = 0;
 			break;
 		
@@ -52,7 +52,7 @@ function getTileData(index) {
 			
 		case 4:
 			name = "WOOD";
-			mCost = 1;
+			mCost = 2;
 			defense = 2;
 			break;
 		

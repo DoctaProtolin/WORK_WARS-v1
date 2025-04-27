@@ -46,7 +46,7 @@ class ComputerCursor {
 		switch (this.state) {
 			
 			case FIND_CLOSEST:
-				let penmen = this.grid.getPenmen();
+				let penmen   = this.grid.getPenmen();
 				let blockmen = this.grid.getBlockmen();
 				
 				this.pAttack = null;
@@ -65,7 +65,6 @@ class ComputerCursor {
 						}
 					}
 				}
-				
 				
 				if (this.bAttack) {
 					this.x = this.pAttack.x;

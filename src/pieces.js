@@ -33,7 +33,7 @@ class Trooper {
 		this.grid = grid;
 		
 		// Game variables
-		this.mCost = 10;
+		this.movementDist = 2;
 
 		this.maxHealth = 10;
 		this.attack = 3;
