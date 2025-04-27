@@ -95,8 +95,6 @@ function preload() {
 	bootImage  = loadImage(assets.ui.boot);
 	
 	
-	soundFormats("mp3");
-	titleMusic = loadSound(assets.music.title);
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
@@ -109,6 +107,9 @@ function setup() {
 	
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
+	
+	titleMusic = new Sound("./mus/Title.mp3", 0.5);
+	
 }
 
 function draw() {
@@ -221,4 +222,8 @@ function linInterpolate (startX, startY, endX, endY, t) {
 		dispX: displacementX,
 		dispY: displacementY,
 	}
+}
+
+function mouseClicked() {
+	titleMusic.play();
 }
