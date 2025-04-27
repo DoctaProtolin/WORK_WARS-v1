@@ -138,7 +138,7 @@ class Grid {
 			}
 			
 			if (stepY != goalY) {
-				stepNum += piece.mCost;
+				stepNum += getTileData(this.getTile(stepX, stepY)).mCost;
 				
 				if (stepY < goalY) {
 					if (this.isEmptyTile(stepX, stepY + 1)) stepY ++;

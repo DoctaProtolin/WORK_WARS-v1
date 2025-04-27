@@ -108,7 +108,7 @@ function setup() {
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 	
-	titleMusic = new Sound("./mus/Title.mp3", 0.5);
+	titleMusic = new Sound("./mus/Title.mp3", 0);
 	
 }
 
