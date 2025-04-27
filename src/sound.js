@@ -35,6 +35,7 @@ class Sound {
 		this.section = SECTION_INTRO;
 		this.loopPoint = loopPoint;
 		
+		this.el.pause();
 		
 		//document.body.appendChild(this.el);
 		document.body.appendChild(this.el);
@@ -44,13 +45,19 @@ class Sound {
 		return this.el.duration;
 	}
 	
-	getTime() {
-		
+	getTime() { return this.el.currentTime; }
+	setTime(t) { this.el.currentTime = t; }
+
+	getVolume() { return this.el.volume; }
+	setVolume(v) { this.el.volume = v; }
+	
+	isPlaying() {
+		return !this.el.paused && this.el.currentTime > 0;
 	}
 	
-	play() {
-		this.el.play();
-	}
+	play() { this.el.currentTime = 0; this.el.play(); }
+	pause() { this.el.pause(); }
+	continueFromPause() { this.el.play() };
 	
 	loop() {
 		if (this.el.currentTime >= this.el.duration - 0.08) {

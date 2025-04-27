@@ -164,11 +164,11 @@ class Cursor {
 		if(this.drawDataWindow) return;
 		
 		if(inputHandler.xPress) {
-			if(this.grid.map[this.y][this.x] == 3) {
+			/*if(this.grid.map[this.y][this.x] == 3) {
 				this.grid.map[this.y][this.x] = 0;
 			} else {
 				this.grid.map[this.y][this.x] = 3;
-			}
+			}*/
 		}
 	}
 	

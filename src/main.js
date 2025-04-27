@@ -46,12 +46,15 @@ let sprites = [];
 // Image vars
 let heartImage, bootImage;
 let earthboundFont;
-let titleMusic;
+
+let soundtrack = {};
+let sfx        = {};
 
 let gridSam = new Grid();
 let playerCursor = new Cursor(gridSam, 0, 0, true);
 let computerCursor = new ComputerCursor(gridSam, 0, 0, false);
 
+let enableGame = false;
 let isPlayerTurn = true;
 let endTurnTrigger = false;
 let turns = 1;
@@ -100,6 +103,7 @@ function preload() {
 }
 
 function setup() {
+	
 	rectMode(CENTER);
 	imageMode(CENTER); // Set rotations
 	angleMode(DEGREES);
@@ -107,11 +111,20 @@ function setup() {
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 	
-	titleMusic = new Sound("./mus/Title.mp3", 16.274); // loop: 16.274
+	soundtrack.title = new Sound("./mus/Title.mp3", 16.274); // loop: 16.274
+	soundtrack.title.setVolume(0);
 	
+	
+	sfx.rWalkFast = new Sound("./sfx/RWalkFast.wav", 0);
+	sfx.hWalkFast = new Sound("./sfx/HWalkFast.wav", 0);
 }
 
 function draw() {
+	
+	textSize(50);
+	text("CLICK TO START.", width/2, height/2);
+	if (!enableGame) return;
+	
 	background(100);
 	
 	gridSam.update();
@@ -145,7 +158,7 @@ function draw() {
 		turns ++;
 	}
 	
-	titleMusic.loop();
+	soundtrack.title.loop();
 	
 	if (inputHandler.upPress > 0)    inputHandler.upPress --;
 	if (inputHandler.downPress > 0)  inputHandler.downPress --;
@@ -222,5 +235,5 @@ function linInterpolate (startX, startY, endX, endY, t) {
 }
 
 function mouseClicked() {
-	titleMusic.play();
+	enableGame = true;
 }

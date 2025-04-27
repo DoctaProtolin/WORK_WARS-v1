@@ -90,8 +90,6 @@ class Grid {
 		return false;
 	}
 	
-	
-	
 	generatePathEnd(piece, goalX, goalY) { // Must be a grid function to check for valid movemet tiles.
 		let startX = piece.x;
 		let startY = piece.y;
@@ -101,7 +99,6 @@ class Grid {
 		let stepNum = 0;
 		
 		let steps = [];
-		
 		
 		// Does not check for if a troop can move over a tile.
 		/* 
@@ -127,18 +124,22 @@ class Grid {
 				let x = this.getScreenX(stepX);
 				let y = this.getScreenY(stepY);
 				
+				stepNum += getTileData(this.getTile(stepX, stepY)).mCost;
+				
 				fill(255, 255, 255);
 				rect(x, y, TILE_SIZE, TILE_SIZE);
 				
 				steps.push({ goalX : stepX, goalY : stepY });
 			}
 			
+			console.log(stepNum);
+			
 			if (!notOnGoal()) {
 				break;
 			}
 			
 			if (stepY != goalY) {
-				stepNum += getTileData(this.getTile(stepX, stepY)).mCost;
+				
 				
 				if (stepY < goalY) {
 					if (this.isEmptyTile(stepX, stepY + 1)) stepY ++;
@@ -149,12 +150,16 @@ class Grid {
 				let x = this.getScreenX(stepX);
 				let y = this.getScreenY(stepY);
 				
+				stepNum += getTileData(this.getTile(stepX, stepY)).mCost;
+				
 				fill(255, 255, 255);
 				rect(x, y, TILE_SIZE, TILE_SIZE);
 				
 				steps.push({ goalX : stepX, goalY : stepY });
 				
 			}
+			
+			console.log(stepNum);
 			
 		}
 		

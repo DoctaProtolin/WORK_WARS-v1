@@ -33,7 +33,7 @@ class Trooper {
 		this.grid = grid;
 		
 		// Game variables
-		this.movementDist = 2;
+		this.movementDist = 3;
 
 		this.maxHealth = 10;
 		this.attack = 3;
@@ -137,6 +137,12 @@ class Trooper {
 				this.movementIndex ++;
 				this.tStep = 0;
 			}
+			
+			if (!sfx.hWalkFast.isPlaying()) sfx.hWalkFast.play();
+			else sfx.hWalkFast.loop();	 
+		} else {
+			//sfx.rWalkFast.pause();
+			// console.log("Still playing");
 		}
 		
 		this.animTimer --;
