@@ -68,9 +68,6 @@ class Cursor {
 	}
 	
 	handleInputCharAction() {
-		
-		
-		
 		if (!this.selectedPiece) {
 			console.error("Something's gone wrong.");
 		}
@@ -144,6 +141,8 @@ class Cursor {
 				
 				if (this.movementType == RESTRICTED) {
 					let attackPiece = this.grid.tileGetPiece(this.x, this.y);
+					let tile  = this.grid.getTile(this.x, this.y);
+					
 					if (attackPiece) {
 						if (attackPiece.team != this.selectedPiece.team) {
 							this.selectedPiece.performAttack(this.grid.tileGetPiece(this.x, this.y));
@@ -151,9 +150,10 @@ class Cursor {
 						} else {
 							sfx.incorrect.play();
 						}
-					} else {
-						sfx.incorrect.play();
-					}
+					} else if (tile > -1) {
+						this.blocks ++;
+						sfx.unitDestroyed.play();
+					} else sfx.incorrect.play();
 					
 					
 					this.selectedPiece = null;
@@ -237,9 +237,6 @@ class Cursor {
 		
 		this.handleInputMovement();
 		this.handleInputAction();
-		
-		
-		
 	}
 	
 	dataWindow() {

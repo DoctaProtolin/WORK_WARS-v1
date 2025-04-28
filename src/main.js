@@ -40,6 +40,10 @@ const G_CODE = 71;
 
 const PRESS_TIME = 1;
 
+
+
+let screen = SCREEN_GAME;
+
 let tiles = [];
 let sprites = [];
 
@@ -49,15 +53,6 @@ let earthboundFont;
 
 let soundtrack = {};
 let sfx        = {};
-
-let gridSam = new Grid();
-let playerCursor = new Cursor(gridSam, 0, 0, true);
-let computerCursor = new ComputerCursor(gridSam, 0, 0, false);
-
-let enableGame = false;
-let isPlayerTurn = true;
-let endTurnTrigger = false;
-let turns = 1;
 
 let inputHandler = {
 	up:    false,
@@ -113,12 +108,14 @@ function setup() {
 	rectMode(CENTER);
 	imageMode(CENTER); // Set rotations
 	angleMode(DEGREES);
+	textAlign("left");
 	
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 	
 	soundtrack.title = new Sound("mus/Title.mp3", 16.274); // loop: 16.274
 	soundtrack.title.setVolume(0);
+	soundtrack.lose  = new Sound("mus/Lose.mp3", 0); // Find loop later
 	
 	
 	sfx.rWalkFast = new Sound("sfx/RWalkFast.wav", 0);
@@ -129,6 +126,7 @@ function setup() {
 	sfx.selected  = new Sound("sfx/Selected.wav", 0);
 	sfx.unitDestroyed = new Sound("sfx/UnitDestroyed.wav", 0);
 	sfx.unitDestroyedAwesome = new Sound("sfx/UnitDestroyedAwesome.wav", 0);
+	
 	
 	sfx.gHammer   = [];
 	
@@ -145,40 +143,8 @@ function draw() {
 	text("CLICK TO START.", width/2, height/2);
 	if (!enableGame) return;
 	
-	background(100);
 	
-	gridSam.update();
-	gridSam.draw();
-	
-	if (isPlayerTurn) {
-		playerCursor.update();
-		playerCursor.draw();
-	} else {
-		computerCursor.update();
-		computerCursor.draw();
-	}
-	
-	if (endTurnTrigger) {
-		endTurnTrigger = false;
-		isPlayerTurn = !isPlayerTurn;
-		
-		
-		playerCursor = new Cursor(gridSam, playerCursor.x, playerCursor.y, true);
-		console.log("reset player cursor");
-		computerCursor = new ComputerCursor(gridSam, computerCursor.x, computerCursor.y);
-		
-		for (let blockman of gridSam.getBlockmen()) {
-			blockman.resetOnTurn();
-		}
-		
-		for (let penman of gridSam.getPenmen()) {
-			penman.resetOnTurn();
-		}
-		
-		turns ++;
-	}
-	
-	soundtrack.title.loop();
+	gameScreen();
 	
 	if (inputHandler.upPress > 0)    inputHandler.upPress --;
 	if (inputHandler.downPress > 0)  inputHandler.downPress --;
@@ -188,14 +154,9 @@ function draw() {
 	if (inputHandler.xPress > 0)     inputHandler.xPress --;
 	if (inputHandler.gPress > 0)     inputHandler.gPress --;
 	
-	
-	image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
-	
-	// I DON'T KNOW WHERE THIS MEMORY LEAK COMES FROM.
-	if (window._styles.length > 100) {
-		window._styles = [];
+	if (screen == SCREEN_LOSE) {
+		loseScreen();
 	}
-	
 }
 
 function keyPressed() {

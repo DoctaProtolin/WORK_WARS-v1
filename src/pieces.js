@@ -38,6 +38,7 @@ class Trooper {
 		this.maxHealth = 10;
 		this.attack = 3;
 		this.health = this.maxHealth;
+		this.blocks = 0;
 		
 		// State variables
 		this.moved    = false;

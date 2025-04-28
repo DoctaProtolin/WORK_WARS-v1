@@ -82,6 +82,16 @@ class Grid {
 		return b;
 	}
 	
+	playerHasWon() {
+		if (this.getPenmen().length > 0 && this.getBlockmen().length <= 0) {
+			return PENMAN;
+		} else if (this.getPenmen().length <= 0 && this.getBlockmen().length > 0) {
+			return BLOCKMAN;
+		} else {
+			return NOTEAM;
+		}
+	}
+	
 	tileGetPiece(x, y) {
 		for (let piece of this.pieces) {
 			if (piece.x == x && piece.y == y) return piece;
