@@ -117,19 +117,26 @@ function setup() {
 	textFont(earthboundFont);
 	createCanvas(window.windowWidth, window.windowHeight);
 	
-	soundtrack.title = new Sound("./mus/Title.mp3", 16.274); // loop: 16.274
+	soundtrack.title = new Sound("mus/Title.mp3", 16.274); // loop: 16.274
 	soundtrack.title.setVolume(0);
 	
 	
-	sfx.rWalkFast = new Sound("./sfx/RWalkFast.wav", 0);
-	sfx.hWalkFast = new Sound("./sfx/HWalkFast.wav", 0);
+	sfx.rWalkFast = new Sound("sfx/RWalkFast.wav", 0);
+	sfx.hWalkFast = new Sound("sfx/HWalkFast.wav", 0);
+	sfx.incorrect = new Sound("sfx/Incorrect.mp3", 0);
+	sfx.sUp       = new Sound("sfx/SUp.wav", 0);
+	sfx.sDown     = new Sound("sfx/SDown.wav", 0);
+	sfx.selected  = new Sound("sfx/Selected.wav", 0);
+	sfx.unitDestroyed = new Sound("sfx/UnitDestroyed.wav", 0);
+	sfx.unitDestroyedAwesome = new Sound("sfx/UnitDestroyedAwesome.wav", 0);
+	
 	sfx.gHammer   = [];
 	
 	for (let i = 0; i < 4; i ++) {
 		sfx.gHammer.push(new Sound("./sfx/GHammer" + (i+1) + ".wav", 0));
 	}
 	
-	sfx.incorrect = new Sound("./sfx/Incorrect.mp3", 0);
+	
 }
 
 function draw() {

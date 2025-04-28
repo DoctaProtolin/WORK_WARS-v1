@@ -275,6 +275,9 @@ class Grid {
 			
 			if (enemy.health <= 0) {
 				this.pieces.splice(i, 1);
+				
+				if (random() > 0.05) sfx.unitDestroyed.play();
+				else sfx.unitDestroyedAwesome.play();
 			}
 		}
 		

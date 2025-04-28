@@ -75,8 +75,13 @@ class Cursor {
 			console.error("Something's gone wrong.");
 		}
 		
-		if (inputHandler.upPress) this.charActionIndex --;
-		else if (inputHandler.downPress) this.charActionIndex ++;
+		if (inputHandler.upPress) {
+			this.charActionIndex --;
+			sfx.sUp.play();
+		} else if (inputHandler.downPress) {
+			this.charActionIndex ++;
+			sfx.sDown.play();
+		}
 		
 		if (this.charActionIndex < 0) {
 			this.charActionIndex = ACTION_NUM-1;
@@ -88,6 +93,8 @@ class Cursor {
 				sfx.incorrect.play();
 				return;
 			}
+			
+			sfx.selected.play();
 			
 			switch (this.charActionIndex % ACTION_NUM) {
 				case ACTION_ATTACK:
