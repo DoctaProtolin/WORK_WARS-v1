@@ -236,8 +236,6 @@ class Grid {
 						let rightTile = j+1 > this.dimX-1 ? 0 : this.map[i][j+1] == 3; 
 						let displayData = generateRoadTile(upTile, rightTile, downTile, leftTile);
 						
-						push();
-						
 						if (i == 1 && j == 4) {
 							//console.log(displayData.tile);
 							//console.log((upTile * 8) + (rightTile * 4) + (downTile * 2) + leftTile);

@@ -40,8 +40,9 @@ class Trooper {
 		this.health = this.maxHealth;
 		
 		// State variables
-		this.moved  = false;
-		this.enable = false;
+		this.moved    = false;
+		this.enable   = false;
+		this.attacked = false;
 		
 		this.goalTile = {
 			x: 0,
@@ -59,6 +60,12 @@ class Trooper {
 		this.tStep = 0;
 		
 		this.animation = ANIM_IDLE;
+	}
+	
+	resetOnTurn() {
+		this.moved    = false;
+		this.enable   = false;
+		this.attacked = false;
 	}
 	
 	setTargetTile(cursor) {
@@ -89,13 +96,22 @@ class Trooper {
 		let enemyDef = enemyTileData.defense;
 		let def      = tileData.defense;
 		
+		let healthScalar = 10; // I don't exactly know what this is.
 		
-		this.health  -= enemy.attack;
-		enemy.health -= this.attack;
+		enemy.health -= (this.health/this.maxHealth) * this.attack * (healthScalar-enemyDef)/healthScalar;
+		
+		this.health  -= (enemy.health/enemy.maxHealth) * enemy.attack * (healthScalar-def)/healthScalar;
+		
+		enemy.health = round(enemy.health);
+		this.health  = round(this.health);
 		
 		this.health  = min(this.health, this.maxHealth); // Learned this from reading Hysteria's code
 		enemy.health = min(enemy.health, enemy.maxHealth);
 		console.log("Performed attack");
+		
+		let gHammerIndex = floor(random(0, 4));
+		
+		sfx.gHammer[gHammerIndex].play();
 	}
 	
 	update() {
@@ -112,6 +128,7 @@ class Trooper {
 			
 			if (this.movementIndex >= this.steps.length) {
 				this.enable = false;
+				playerCursor.usingCharActionMenu = true;
 				return;
 			}
 			

@@ -12,10 +12,15 @@
 		movement cost: 2
 		defense: 0
 	2 - mountain
-		
+		movement cost: 3
+		defense: 3
 	3 - road
-	
+		movement cost: 0
+		defense: 0
 	4 - wood
+		movement cost: 2
+		defense: 2
+		
 	
 	100 - border
 */

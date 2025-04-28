@@ -97,12 +97,18 @@ function preload() {
 	heartImage = loadImage(assets.ui.heart);
 	bootImage  = loadImage(assets.ui.boot);
 	
+	
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
 }
 
 function setup() {
+	
+	let link = document.createElement("link");
+	link.rel = "icon";
+	link.href = assets.sprites.blockman_frame_1;
+	document.head.appendChild(link);
 	
 	rectMode(CENTER);
 	imageMode(CENTER); // Set rotations
@@ -117,6 +123,13 @@ function setup() {
 	
 	sfx.rWalkFast = new Sound("./sfx/RWalkFast.wav", 0);
 	sfx.hWalkFast = new Sound("./sfx/HWalkFast.wav", 0);
+	sfx.gHammer   = [];
+	
+	for (let i = 0; i < 4; i ++) {
+		sfx.gHammer.push(new Sound("./sfx/GHammer" + (i+1) + ".wav", 0));
+	}
+	
+	sfx.incorrect = new Sound("./sfx/Incorrect.mp3", 0);
 }
 
 function draw() {
@@ -148,11 +161,11 @@ function draw() {
 		computerCursor = new ComputerCursor(gridSam, computerCursor.x, computerCursor.y);
 		
 		for (let blockman of gridSam.getBlockmen()) {
-			blockman.moved = false;
+			blockman.resetOnTurn();
 		}
 		
 		for (let penman of gridSam.getPenmen()) {
-			penman.moved = false;
+			penman.resetOnTurn();
 		}
 		
 		turns ++;
@@ -170,6 +183,11 @@ function draw() {
 	
 	
 	image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
+	
+	// I DON'T KNOW WHERE THIS MEMORY LEAK COMES FROM.
+	if (window._styles.length > 100) {
+		window._styles = [];
+	}
 	
 }
 
@@ -232,6 +250,16 @@ function linInterpolate (startX, startY, endX, endY, t) {
 		dispX: displacementX,
 		dispY: displacementY,
 	}
+}
+
+function isPlayingGunshots() {
+	for (let gHammerSfx of sfx.gHammer) {
+		if (gHammerSfx.getTime() < gHammerSfx.getDuration() && gHammerSfx.getTime() != 0) {
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 function mouseClicked() {

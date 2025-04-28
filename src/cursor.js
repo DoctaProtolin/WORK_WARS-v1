@@ -5,9 +5,9 @@ const FREE       = "free";
 const RESTRICTED = "restricted";
 const LOCKED     = "locked";
 
-const ACTION_ATTACK    = 0;
+const ACTION_ATTACK    = 2;
 const ACTION_MOVE      = 1;
-const ACTION_NEVERMIND = 2;
+const ACTION_NEVERMIND = 0;
 const ACTION_END_TURN  = 3;
 
 const ACTION_NUM = 4;
@@ -18,13 +18,12 @@ class Cursor {
 		this.x = x;
 		this.y = y;
 		
+		this.drawDataWindow = false;
 		this.usingCharActionMenu = false;
 		this.charActionIndex = 0;
 		
 		this.boundToGrid = false; // Doesn't affect anything yet
 		this.isLocked = false;
-		
-		this.drawDataWindow = false;
 		
 		this.selectedPiece = null;
 		this.movementType = FREE;
@@ -48,7 +47,76 @@ class Cursor {
 				if (this.grid.isValidTile(this.x+1, this.y)) this.x ++;
 			}
 		} else if (this.movementType == LOCKED) {
+			if (!this.selectedPiece) return;
+			this.x = this.selectedPiece.x;
+			this.y = this.selectedPiece.y;
+		} else if (this.movementType == RESTRICTED) {
+			if (inputHandler.upPress || inputHandler.downPress || inputHandler.leftPress || inputHandler.rightPress) {
+				this.x = this.selectedPiece.x;
+				this.y = this.selectedPiece.y;
+				
+				if (inputHandler.upPress    && this.grid.isValidTile(this.x, this.y-1)) this.y = this.selectedPiece.y -1;
+				else if (inputHandler.downPress  && this.grid.isValidTile(this.x, this.y+1)) this.y = this.selectedPiece.y +1;
+				else if (inputHandler.leftPress  && this.grid.isValidTile(this.x-1, this.y)) this.x = this.selectedPiece.x -1;
+				else if (inputHandler.rightPress && this.grid.isValidTile(this.x+1, this.y)) this.x = this.selectedPiece.x +1;
+			}
+		}
+	}
+	
+	isCharActionUnselectable(i) {
+		return i == ACTION_MOVE && this.selectedPiece.moved || i == ACTION_ATTACK && this.selectedPiece.attacked;
+	}
+	
+	handleInputCharAction() {
+		
+		
+		
+		if (!this.selectedPiece) {
+			console.error("Something's gone wrong.");
+		}
+		
+		if (inputHandler.upPress) this.charActionIndex --;
+		else if (inputHandler.downPress) this.charActionIndex ++;
+		
+		if (this.charActionIndex < 0) {
+			this.charActionIndex = ACTION_NUM-1;
+		}
+		
+		if (inputHandler.zPress) {
 			
+			if (this.isCharActionUnselectable(this.charActionIndex)) {
+				sfx.incorrect.play();
+				return;
+			}
+			
+			switch (this.charActionIndex % ACTION_NUM) {
+				case ACTION_ATTACK:
+					this.movementType = RESTRICTED;
+					this.usingCharActionMenu = false;
+					this.charActionIndex = 0;
+					break;
+					
+				case ACTION_MOVE:
+					this.movementType = FREE;
+					this.usingCharActionMenu = false;
+					this.charActionIndex = 0;
+					break;
+					
+				case ACTION_NEVERMIND:
+					this.charActionIndex = 0;
+					this.usingCharActionMenu = false;
+					this.movementType = FREE;
+					this.selectedPiece = null;
+					break;
+					
+				case ACTION_END_TURN:
+					this.charActionIndex = 0;
+					this.usingCharActionMenu = false;
+					this.movementType = FREE;
+					this.selectedPiece = null;
+					endTurnTrigger = true;
+					break;
+			}
 		}
 	}
 	
@@ -59,59 +127,32 @@ class Cursor {
 		}
 		
 		if (this.usingCharActionMenu) {
-			
-			if (this.charActionIndex % ACTION_NUM == ACTION_MOVE && this.selectedPiece.moved) {
-				this.charActionIndex ++;
-			}
-			
-			if (!this.selectedPiece) {
-				console.error("Something's gone wrong.");
-			}
-			
-			if (inputHandler.upPress) this.charActionIndex --;
-			else if (inputHandler.downPress) this.charActionIndex ++;
-			
-			if (this.charActionIndex < 0) {
-				this.charActionIndex = ACTION_NUM;
-			}
-			
-			if (inputHandler.zPress) {
-				switch (this.charActionIndex % ACTION_NUM) {
-					case ACTION_ATTACK:
-						console.error("Uh oh");
-						this.charActionIndex = 0;
-						break;
-						
-					case ACTION_MOVE:
-						this.movementType = FREE;
-						this.usingCharActionMenu = false;
-						this.charActionIndex = 0;
-						break;
-						
-					case ACTION_NEVERMIND:
-						this.charActionIndex = 0;
-						this.usingCharActionMenu = false;
-						this.movementType = FREE;
-						this.selectedPiece = null;
-						break;
-						
-					case ACTION_END_TURN:
-						this.charActionIndex = 0;
-						this.usingCharActionMenu = false;
-						this.movementType = FREE;
-						this.selectedPiece = null;
-						endTurnTrigger = true;
-						break;
-				}
-			}
-			
+			this.handleInputCharAction();
 			return;
 		}
 		
 		if (inputHandler.zPress) {
-			console.log("z press");
 			
 			if (this.selectedPiece) {
+				
+				if (this.movementType == RESTRICTED) {
+					let attackPiece = this.grid.tileGetPiece(this.x, this.y);
+					if (attackPiece) {
+						if (attackPiece.team != this.selectedPiece.team) {
+							this.selectedPiece.performAttack(this.grid.tileGetPiece(this.x, this.y));
+							this.selectedPiece.attacked = true;
+						} else {
+							sfx.incorrect.play();
+						}
+					} else {
+						sfx.incorrect.play();
+					}
+					
+					
+					this.selectedPiece = null;
+					this.movementType = FREE;
+					return;
+				}
 				
 				if (this.x == this.selectedPiece.x && this.y == this.selectedPiece.y) { // Deselect piece
 					this.selectedPiece = null;
@@ -171,12 +212,15 @@ class Cursor {
 			}*/
 		}
 	}
-	
-	handleInputCharActionMenu() {
-		
-	}
-	
+
+
+
 	update() {
+		
+		//let attackIsHappening = false;
+		
+		if (isPlayingGunshots()) return;
+		
 		
 		if (this.selectedPiece) {
 			if (!this.selectedPiece.moved && !this.selectedPiece.enabled) {
@@ -187,11 +231,7 @@ class Cursor {
 		this.handleInputMovement();
 		this.handleInputAction();
 		
-		if (this.movementType == LOCKED) {
-			if (!this.selectedPiece) return;
-			this.x = this.selectedPiece.x;
-			this.y = this.selectedPiece.y;
-		}
+		
 		
 	}
 	
@@ -247,9 +287,9 @@ class Cursor {
 		
 		let menuText = [];
 		
+		menuText[ACTION_NEVERMIND]    = "NEVERMIND";
+		menuText[ACTION_MOVE]      = "MOVE";
 		menuText[ACTION_ATTACK] = "ATTACK";
-		menuText[ACTION_MOVE] = "MOVE";
-		menuText[ACTION_NEVERMIND] = "NEVERMIND";
 		menuText[ACTION_END_TURN]  = "END_TURN";
 		
 		textSize(20);
@@ -261,7 +301,7 @@ class Cursor {
 			let displayText = menuText[i];
 			if (this.charActionIndex%ACTION_NUM == i) displayText = "<" + displayText; // Earthbound font has < and > flipped.
 			
-			if (i == ACTION_MOVE && this.selectedPiece.moved) fill(150, 150, 150);
+			if (this.isCharActionUnselectable(i)) fill(150, 150, 150);
 			
 			text(displayText, winX + 10, 30 * i + winY + 20, 10);
 		}

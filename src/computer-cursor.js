@@ -30,6 +30,8 @@ class ComputerCursor {
 	
 	update() {
 		
+		if (isPlayingGunshots()) return;
+		
 		let piecesMoved = 0;
 		for (let blockman of this.grid.getBlockmen()) {
 			if (blockman.moved) piecesMoved ++;
