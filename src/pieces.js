@@ -129,7 +129,16 @@ class Trooper {
 			
 			if (this.movementIndex >= this.steps.length) {
 				this.enable = false;
-				playerCursor.usingCharActionMenu = true;
+				
+				
+				if (this.grid.getTile(this.x, this.y) == 6) {
+					for (let blockman of this.grid.getBlockmen()) {
+						blockman.health = 0;
+					}
+				} else {
+					playerCursor.usingCharActionMenu = true;
+				}
+				
 				return;
 			}
 			

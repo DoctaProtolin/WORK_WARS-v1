@@ -80,7 +80,9 @@ function preload() {
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
 	tiles[4] = loadImage(assets.tiles.wood);
-	
+	tiles[5] = loadImage(assets.tiles.town);
+	tiles[6] = loadImage(assets.tiles.levelSwitch);
+	tiles[7] = loadImage(assets.tiles.factory);
 	
 	tiles[100] = loadImage(assets.tiles.border);
 	

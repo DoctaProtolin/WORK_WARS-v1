@@ -20,7 +20,15 @@
 	4 - wood
 		movement cost: 2
 		defense: 2
-		
+	5 - town
+		movement cost: 1
+		defense: 3
+	6 - levelSwitch
+		movement cost: 1
+		defense: 0
+	7 - factory
+		movement cost: 1
+		defense: 0
 	
 	100 - border
 */
@@ -59,6 +67,24 @@ function getTileData(index) {
 			name = "WOOD";
 			mCost = 2;
 			defense = 2;
+			break;
+			
+		case 5:
+			name = "TOWN";
+			mCost = 1;
+			defense = 3;
+			break;
+		
+		case 6:
+			name = "LEVEL_SWITCH";
+			mCost = 1;
+			defense = 0;
+			break;
+			
+		case 7:
+			name = "FACTORY";
+			mCost = 1;
+			defense = 1;
 			break;
 		
 		default:

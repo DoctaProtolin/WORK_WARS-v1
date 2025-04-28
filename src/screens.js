@@ -51,6 +51,10 @@ function gameScreen() {
 		
 		for (let penman of gridCommon.getPenmen()) {
 			penman.resetOnTurn();
+			
+			if (gridCommon.getTile(penman.x, penman.y) == 5) {
+				penman.health ++;
+			}
 		}
 		
 		turns ++;
@@ -64,7 +68,7 @@ function gameScreen() {
 	}
 	
 	
-	image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
+	// image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
 }
 
 function loseScreen() {
