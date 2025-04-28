@@ -221,6 +221,12 @@ class Grid {
 		return this.map[y][x];
 	}
 	
+	setTile(x, y, t) {
+		if (!this.isValidTile(x, y)) return -1;
+		
+		this.map[y][x] = t; // t for tile
+	}
+	
 	drawMap() {
 		noStroke();
 		

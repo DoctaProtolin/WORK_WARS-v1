@@ -9,8 +9,13 @@ const ACTION_ATTACK    = 2;
 const ACTION_MOVE      = 1;
 const ACTION_NEVERMIND = 0;
 const ACTION_END_TURN  = 3;
+const ACTION_BUILD     = 4;
 
-const ACTION_NUM = 4;
+const ACTION_NUM = 5;
+
+const BUILD_MODE = "BUILD_MODE";
+const ATTACK_MODE = "ATTACK_MODE";
+const NORMAL_MODE = "NORMAL_MODE";
 
 class Cursor {
 	constructor(grid, x, y, isPlayerCursor) {
@@ -28,6 +33,7 @@ class Cursor {
 		this.selectedPiece = null;
 		this.movementType = FREE;
 		this.isPlayerCursor = isPlayerCursor;
+		this.mode = NORMAL_MODE;
 	}
 	
 	handleInputMovement() {
@@ -64,7 +70,7 @@ class Cursor {
 	}
 	
 	isCharActionUnselectable(i) {
-		return i == ACTION_MOVE && this.selectedPiece.moved || i == ACTION_ATTACK && this.selectedPiece.attacked;
+		return i == ACTION_MOVE && this.selectedPiece.moved || i == ACTION_ATTACK && this.selectedPiece.attacked || i == ACTION_BUILD && this.selectedPiece.built;
 	}
 	
 	handleInputCharAction() {
@@ -97,6 +103,7 @@ class Cursor {
 				case ACTION_ATTACK:
 					this.movementType = RESTRICTED;
 					this.usingCharActionMenu = false;
+					this.mode = ATTACK_MODE;
 					this.charActionIndex = 0;
 					break;
 					
@@ -104,6 +111,7 @@ class Cursor {
 					this.movementType = FREE;
 					this.usingCharActionMenu = false;
 					this.charActionIndex = 0;
+					this.mode = NORMAL_MODE;
 					break;
 					
 				case ACTION_NEVERMIND:
@@ -111,14 +119,22 @@ class Cursor {
 					this.usingCharActionMenu = false;
 					this.movementType = FREE;
 					this.selectedPiece = null;
+					this.mode = NORMAL_MODE;
 					break;
 					
 				case ACTION_END_TURN:
 					this.charActionIndex = 0;
 					this.usingCharActionMenu = false;
 					this.movementType = FREE;
+					this.mode = NORMAL_MODE;
 					this.selectedPiece = null;
 					endTurnTrigger = true;
+					break;
+					
+				case ACTION_BUILD:
+					this.charActionIndex = 0;
+					this.usingCharActionMenu = false;
+					this.movementType = BUILD_MODE;
 					break;
 			}
 		}
@@ -140,24 +156,31 @@ class Cursor {
 			if (this.selectedPiece) {
 				
 				if (this.movementType == RESTRICTED) {
-					let attackPiece = this.grid.tileGetPiece(this.x, this.y);
-					let tile  = this.grid.getTile(this.x, this.y);
-					
-					if (attackPiece) {
-						if (attackPiece.team != this.selectedPiece.team) {
-							this.selectedPiece.performAttack(this.grid.tileGetPiece(this.x, this.y));
+					if (this.mode == ATTACK_MODE) {
+						let attackPiece = this.grid.tileGetPiece(this.x, this.y);
+						let tile  = this.grid.getTile(this.x, this.y);
+						
+						if (attackPiece) {
+							if (attackPiece.team != this.selectedPiece.team) {
+								this.selectedPiece.performAttack(this.grid.tileGetPiece(this.x, this.y));
+								this.selectedPiece.attacked = true;
+							} else {
+								sfx.incorrect.play();
+							}
+						} else if (tile == 4) {
+							this.selectedPiece.blocks ++;
 							this.selectedPiece.attacked = true;
-						} else {
-							sfx.incorrect.play();
-						}
-					} else if (tile > -1) {
-						this.blocks ++;
-						sfx.unitDestroyed.play();
-					} else sfx.incorrect.play();
+							this.selectedPiece.moved    = true;
+							this.grid.setTile(this.x, this.y, 0);
+							sfx.unitDestroyed.play();
+						} else sfx.incorrect.play();
+						
+						
+						this.selectedPiece = null;
+						this.movementType = FREE;
+					}
 					
 					
-					this.selectedPiece = null;
-					this.movementType = FREE;
 					return;
 				}
 				

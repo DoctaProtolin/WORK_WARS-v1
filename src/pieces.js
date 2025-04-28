@@ -67,6 +67,7 @@ class Trooper {
 		this.moved    = false;
 		this.enable   = false;
 		this.attacked = false;
+		this.built    = false;
 	}
 	
 	setTargetTile(cursor) {
