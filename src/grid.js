@@ -69,6 +69,7 @@ class Grid {
 		computerCursor = new ComputerCursor(this, 0, 0, false);
 		turns = 1;
 		endTurnTrigger = false;
+		explosionBuffer = [];
 		
 		for (let i in level.tileMap) {
 			this.map[i] = [];
