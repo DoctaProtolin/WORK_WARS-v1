@@ -170,7 +170,7 @@ class Cursor {
 							} else {
 								sfx.incorrect.play();
 							}
-						} else if (tile == 4) {
+						} else if (tile == 4 || tile == 8) {
 							this.selectedPiece.blocks ++;
 							this.selectedPiece.attacked = true;
 							this.grid.setTile(this.x, this.y, 0);
