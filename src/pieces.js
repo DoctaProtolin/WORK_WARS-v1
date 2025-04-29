@@ -185,7 +185,7 @@ class Trooper {
 	}
 	
 	update() {
-		this.health = min(this.maxHealth, this.health));
+		this.health = min(this.maxHealth, this.health);
 	}
 	
 
