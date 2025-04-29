@@ -285,7 +285,7 @@ class Grid {
 				
 				let tileIndex = this.map[i][j];
 				
-				if (tileIndex != 3) {
+				if (tileIndex != 3 && tileIndex != 1) {
 					image(tiles[tileIndex], this.x + localX, this.y + localY, TILE_SIZE, TILE_SIZE);
 				} else {
 					if (tileIndex == 3) {
@@ -306,6 +306,25 @@ class Grid {
 						translate(this.x + localX, this.y + localY);
 						rotate(displayData.angle);
 						image(tiles[3][displayData.tile], 0, 0, TILE_SIZE, TILE_SIZE);
+						pop();
+					} else if (tileIndex == 1) {
+						noSmooth();
+						
+						let upTile    = i-1 < 0         ? 0 :   this.map[i-1][j] == 1;
+						let downTile  = i+1 > this.dimY-1 ? 0 : this.map[i+1][j] == 1;
+						let leftTile  = j-1 < 0         ? 0 :   this.map[i][j-1] == 1;
+						let rightTile = j+1 > this.dimX-1 ? 0 : this.map[i][j+1] == 1; 
+						let displayData = generateRiverTile(upTile, rightTile, downTile, leftTile);
+						
+						if (i == 1 && j == 4) {
+							//console.log(displayData.tile);
+							//console.log((upTile * 8) + (rightTile * 4) + (downTile * 2) + leftTile);
+						}
+						
+						push();
+						translate(this.x + localX, this.y + localY);
+						rotate(displayData.angle);
+						image(tiles[1][displayData.tile], 0, 0, TILE_SIZE, TILE_SIZE);
 						pop();
 					}
 				}

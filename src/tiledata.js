@@ -201,6 +201,102 @@ function generateRoadTile(up, right, down, left) {
 	};
 }
 
+function generateRiverTile(up, right, down, left) {
+	let code = up * 8 + right * 4 + down * 2 + left;
+	
+	let angle = 0;
+	let type = 0;
+	
+	const STRAIGHT = 0;
+	const CORNER   = 1; // should be 1
+	const CROSS    = 2;
+	const T        = 3;
+	
+	switch (code) {
+		case 0: break;
+		case 1:
+			angle = 90;
+			type  = STRAIGHT;
+			break;
+			
+		case 2:
+			angle = 0;
+			type  = STRAIGHT;
+			break;
+			
+		case 3: // 0011
+			angle = 90;
+			type  = CORNER;
+			break;
+		
+		case 4: // 0100
+			angle = 90;
+			type  = STRAIGHT;
+			break;
+			
+		case 5: // 0101
+			angle = 90;
+			type = STRAIGHT;
+			break;
+			
+		case 6: // 0110
+			angle = 0;
+			type  = CORNER;
+			break;
+		
+		case 7: // 0111
+			angle = 0;
+			type  = T;
+			break;
+		
+		case 8: // 1000
+			angle = 0;
+			type = STRAIGHT;
+			break;
+		
+		case 9: // 1001
+			angle = 180;
+			type = CORNER;
+			break;
+			
+		case 10: // 1010
+			angle = 0;
+			type = STRAIGHT;
+			break;
+			
+		case 11: // 1011
+			angle = 90;
+			type = T;
+			break;
+		
+		case 12: // 1100
+			angle = 270;
+			type  = CORNER;
+			break;
+			
+		case 13: // 1101
+			angle = 180;
+			type = T;
+			break;
+		
+		case 14: // 1110
+			angle = 270;
+			type  = T;
+			break;
+			
+		case 15:
+			angle = 0;
+			type  = CROSS;
+			break;
+		
+	}
+	
+	return {
+		angle: angle,
+		tile: type,
+	};
+}
+
 
 
 // end

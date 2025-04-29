@@ -149,6 +149,7 @@ class Trooper {
 				}
 			}
 			
+			this.animTimer = 0;
 			let x = this.grid.getScreenX(this.x);
 			let y = this.grid.getScreenY(this.y);
 			
@@ -211,7 +212,21 @@ class Trooper {
 			displaySprite = sprites[0][this.animData.idleSprite?1:0];
 		} else {
 			displaySprite = sprites[1][this.animData.idleSprite?1:0];
+			
+			
+			
+			
+			if (this.enable && !this.moved) {
+				
+				if (this.animTimer < 10) {
+					this.animData.walkSprite = !this.animData.walkSprite;
+					this.animTimer = 60;
+				}
+				
+				displaySprite = sprites[1][this.animData.walkSprite?3:2];
+			}
 		}
+		
 		
 		image(displaySprite, displayX, displayY, TILE_SIZE, TILE_SIZE);
 		
