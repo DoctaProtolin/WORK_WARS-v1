@@ -174,6 +174,10 @@ function setup() {
 		titleData.grids[2].x + titleData.grids[2].dimX*TILE_SIZE/2,
 	];
 	
+	let a = document.createElement("a");
+	a.href = "./INSTRUCTIONS.txt";
+	a.target = "_blank";
+	a.click();
 }
 
 function draw() {
@@ -182,6 +186,7 @@ function draw() {
 	if (!enableGame) {
 		background(0, 0, 0);
 		textSize(50);
+		fill(255, 255, 255);
 		text("CLICK TO START.", width/2, height/2);
 		return;
 	}

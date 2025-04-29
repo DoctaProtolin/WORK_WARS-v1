@@ -152,7 +152,7 @@ function titleScreen() {
 	
 	fill(255, 255, 255);
 	textAlign(CENTER);
-	text("Use the arrow keys + Z", width/2, 300);
+	text("Press X for instructions", width/2, 300);
 	
 	if (titleData.showGrids) {
 		for (let grid of titleData.grids) grid.draw();
@@ -170,6 +170,10 @@ function titleScreen() {
 			gridCommon.loadMap(levels[titleData.cursorIndex]);
 			return;
 		}
+	}
+	
+	if (inputHandler.xPress) {
+		location.href = "./INSTRUCTIONS.txt";
 	}
 	
 	if (titleData.showGrids) {
