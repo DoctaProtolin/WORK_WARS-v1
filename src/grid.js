@@ -90,8 +90,8 @@ class Grid {
 					// case 0: continue;
 					case 0: trooper = new Trooper(this, j, i, BLOCKMAN); break;
 					case 1: trooper = new Trooper(this, j, i, PENMAN); break;
-					case 2: trooper = new Forklift(this, j, i, PENMAN); break
-					case 3: break; // for botmen
+					case 2: trooper = new Forklift(this, j, i, PENMAN); break;
+					case 3: trooper = new Botman(this, j, i, BLOCKMAN); break; // for botmen
 				}
 				
 				if (trooper != -1) this.pieces.push(trooper);

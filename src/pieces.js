@@ -302,3 +302,69 @@ class Forklift extends Trooper {
 		if (screen != SCREEN_TITLE) text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
 	}
 }
+
+
+
+
+class Botman extends Trooper {
+	constructor(grid, x, y, team) {
+		
+		super(grid, x, y, team);
+		
+		// Game variables
+		this.movementDist = 50;
+
+		this.maxHealth = 30;
+		this.health = this.maxHealth;
+		this.attack = 5;
+		this.blocks = 0;
+		
+		
+		this.goalTile = {
+			x: 0,
+			y: 0,
+		}
+		
+		this.animTimer = 0;
+		
+		this.animData = {
+			idleSprite: true, // easier to manipulate
+		}
+	}
+	
+	draw() {
+		this.move();
+		
+		if (this.enable) {
+			if (!sfx.forkliftMoving.isPlaying()) sfx.forkliftMoving.play();
+			else sfx.forkliftMoving.loop();	
+		}
+		
+		this.animTimer --;
+		
+		if(this.animTimer < 0) {
+			this.animData.idleSprite = !this.animData.idleSprite;	
+			this.animTimer  = 60;
+		}
+		
+		let displaySprite;
+		
+		let d = this.move();       // Not very elegant but we have one day left.
+		let displayX = d.displayX;
+		let displayY = d.displayY;
+		
+		if (this.team == BLOCKMAN) {
+			displaySprite = sprites[3][this.animData.idleSprite?1:0];
+		} else {
+			displaySprite = sprites[2][this.animData.idleSprite?1:0];
+		}
+		
+		image(displaySprite, displayX, displayY, TILE_SIZE, TILE_SIZE);
+		
+		textSize(20);
+		fill(255, 50, 0);
+		if (screen != SCREEN_TITLE) text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
+	}
+}
+
+

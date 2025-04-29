@@ -38,8 +38,9 @@ Complete all maps to recieve the ultimate reward!
 
 The penmen have a few secrets about the blockmen they learned from working with them all those years, such as:
 
-1. The BLOCKMEN are a powerful force, but you can outsmart them with some good ol' PENMAN thought.
-2. The penman researchers did lots of work to compile a dictionary of what tiles can do what. Use this for a strategic advantage!
+1. The BLOCKMEN are BLOCKHEADS! Outsmart them with some good ol' fashioned PENMAN thought!
+2. Split up the PENMEN to split up the BLOCKMEN, divide and conquer!
+3. The penman researchers did lots of work to compile a dictionary of what tiles can do what. Use this for a strategic advantage!
 
 OL PENMAN GUIDE TO STRATEGIC KICKBUTT-ERY
 Grass
@@ -66,10 +67,13 @@ Switch
 Factory
 	movement cost: 1
 	defense: 0
+	
+
+TAKE OVER THE ROADS, THE TOWNS, AND THE FACTORY, PENMEN! HAMMER SO FAST ALL YOUR FOES CRASH!!!
 
 ============================= CREDITS ===========================
 
-Soundtrack by Dobrakawanimat
+Music and Sound Effects by Dobrakawanimat
 Art by Dobrakawanimat
 
 Engine/Gameplay programming by Dr. Protolin
