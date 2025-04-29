@@ -180,6 +180,7 @@ function draw() {
 	
 	
 	if (!enableGame) {
+		background(0, 0, 0);
 		textSize(50);
 		text("CLICK TO START.", width/2, height/2);
 		return;

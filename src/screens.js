@@ -150,6 +150,10 @@ function titleScreen() {
 	image(titleImage, 0, 0);
 	pop();
 	
+	fill(255, 255, 255);
+	textAlign(CENTER);
+	text("Use the arrow keys + Z", width/2, 300);
+	
 	if (titleData.showGrids) {
 		for (let grid of titleData.grids) grid.draw();
 	}
