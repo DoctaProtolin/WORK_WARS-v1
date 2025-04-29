@@ -69,6 +69,9 @@ function gameScreen() {
 	if (gridCommon.playerHasWon() == BLOCKMAN) {
 		screen = SCREEN_LOSE;
 		if (!soundtrack.lose.isPlaying()) soundtrack.lose.play();
+	} else if (gridCommon.playerHasWon() == PENMAN) {
+		screen = SCREEN_WIN;
+		if (!soundtrack.win.isPlaying()) soundtrack.win.play();
 	}
 	
 	for (let i in explosionBuffer) {
@@ -86,9 +89,39 @@ function gameScreen() {
 	// image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
 }
 
+function winScreen() {
+	soundtrack.win.loop();
+	
+	textAlign(CENTER);
+	textSize(100);
+	fill(0, 150, 0);
+	text("NICE!", width/2 + 200, height/2);
+	fill(0, 200, 200);
+	textSize(30);
+	text("Press Z to continue!", width/2+200, height/2 + 100);
+	
+	if (inputHandler.zPress) {
+		screen = SCREEN_TITLE;
+		soundtrack.title.play();
+		soundtrack.win.pause();
+	}
+}
+
 function loseScreen() {
 	textAlign(CENTER);
-	text("WELP!", width/2, height/2);
+	textSize(100);
+	fill(255, 0, 0);
+	text("WELP!", width/2 + 200, height/2);
+	fill(0, 0, 200);
+	textSize(30);
+	text("Press Z to continue...", width/2+200, height/2 + 100);
+	
+	soundtrack.lose.loop();
+	if (inputHandler.zPress) {
+		screen = SCREEN_TITLE;
+		soundtrack.title.play();
+		soundtrack.lose.pause();
+	}
 }
 
 let titleData = {
@@ -99,6 +132,7 @@ let titleData = {
 }
 
 function titleScreen() {
+	TILE_SIZE = 30;
 	background(0);
 	push();
 	translate(width/2, height/4);
@@ -125,20 +159,22 @@ function titleScreen() {
 		}
 	}
 	
-	if (inputHandler.leftPress) {
-		titleData.cursorIndex --;
-		sfx.sDown.play();
-	} else if (inputHandler.rightPress) {
-		titleData.cursorIndex ++;
-		sfx.sUp.play();
+	if (titleData.showGrids) {
+		if (inputHandler.leftPress) {
+			titleData.cursorIndex --;
+			sfx.sDown.play();
+		} else if (inputHandler.rightPress) {
+			titleData.cursorIndex ++;
+			sfx.sUp.play();
+		}
+		
+		if (titleData.cursorIndex < 0) titleData.cursorIndex = 2;
+		else if (titleData.cursorIndex > 2) titleData.cursorIndex = 0;
+		
+		textSize(50);
+		stroke(255, 255, 255);
+		text("^", titleData.cursorXs[titleData.cursorIndex], height);
 	}
-	
-	if (titleData.cursorIndex < 0) titleData.cursorIndex = 2;
-	else if (titleData.cursorIndex > 2) titleData.cursorIndex = 0;
-	
-	textSize(50);
-	stroke(255, 255, 255);
-	text("^", titleData.cursorXs[titleData.cursorIndex], height);
 	
 	
 	

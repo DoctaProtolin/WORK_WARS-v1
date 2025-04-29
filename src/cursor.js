@@ -184,8 +184,8 @@ class Cursor {
 					} else if (this.mode == BUILD_MODE) {
 						let tile  = this.grid.getTile(this.x, this.y);
 						
-						if (tile != -1 && this.selectedPiece.blocks >= 2) {
-							this.selectedPiece.blocks -= 2;
+						if (tile != -1 && this.selectedPiece.blocks > 0) {
+							this.selectedPiece.blocks --;
 							this.selectedPiece.attacked = true;
 							this.grid.setTile(this.x, this.y, 8);
 							sfx.unitDestroyedAwesome.play();

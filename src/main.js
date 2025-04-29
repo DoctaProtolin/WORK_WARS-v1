@@ -127,7 +127,8 @@ function setup() {
 	createCanvas(window.windowWidth, window.windowHeight);
 	
 	soundtrack.title = new Sound("mus/Title.mp3", 16.274); // loop: 16.274
-	soundtrack.lose  = new Sound("mus/Lose.mp3", 0); // Find loop later
+	soundtrack.lose  = new Sound("mus/Lose.mp3", 8.27);
+	soundtrack.win   = new Sound("mus/Win.mp3", 7.094);
 	
 	for (let track of Object.values(soundtrack)) {
 		track.setVolume(0.08);	
@@ -172,9 +173,12 @@ function setup() {
 
 function draw() {
 	
-	textSize(50);
-	text("CLICK TO START.", width/2, height/2);
-	if (!enableGame) return;
+	
+	if (!enableGame) {
+		textSize(50);
+		text("CLICK TO START.", width/2, height/2);
+		return;
+	}
 	
 	// Yes I know about switch cases. Not today.
 	if (screen == SCREEN_TITLE) {
@@ -183,6 +187,8 @@ function draw() {
 		gameScreen();
 	} else if (screen == SCREEN_LOSE) {
 		loseScreen();
+	} else if (screen == SCREEN_WIN) {
+		winScreen();
 	}
 	
 	if (inputHandler.upPress > 0)    inputHandler.upPress --;
