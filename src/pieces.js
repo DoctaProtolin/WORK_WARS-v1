@@ -33,7 +33,7 @@ class Trooper {
 		this.grid = grid;
 		
 		// Game variables
-		this.movementDist = 3;
+		this.movementDist = 4;
 
 		this.maxHealth = 10;
 		this.attack = 3;
@@ -101,19 +101,20 @@ class Trooper {
 		let healthScalar = 10; // I don't exactly know what this is.
 		
 		enemy.health -= (this.health/this.maxHealth) * this.attack * (healthScalar-enemyDef)/healthScalar;
-		
-		this.health  -= (enemy.health/enemy.maxHealth) * enemy.attack * (healthScalar-def)/healthScalar;
-		
-		enemy.health = round(enemy.health);
-		this.health  = round(this.health);
-		
-		this.health  = min(this.health, this.maxHealth); // Learned this from reading Hysteria's code
-		enemy.health = min(enemy.health, enemy.maxHealth);
 		console.log("Performed attack");
 		
 		let gHammerIndex = floor(random(0, 4));
-		
 		sfx.gHammer[gHammerIndex].play();
+		
+		if (enemy.health == 0 && isPlayerTurn) {
+			return;
+		}
+		
+		this.health  -= (enemy.health/enemy.maxHealth) * enemy.attack * (healthScalar-def)/healthScalar;
+		
+		enemy.health = floor(enemy.health);
+		this.health  = floor(this.health);
+		
 	}
 	
 	update() {

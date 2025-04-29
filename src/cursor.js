@@ -5,11 +5,13 @@ const FREE       = "free";
 const RESTRICTED = "restricted";
 const LOCKED     = "locked";
 
-const ACTION_ATTACK    = 2;
-const ACTION_MOVE      = 1;
 const ACTION_NEVERMIND = 0;
-const ACTION_END_TURN  = 3;
-const ACTION_BUILD     = 4;
+const ACTION_ATTACK    = 1;
+const ACTION_MOVE      = 2;
+const ACTION_BUILD     = 3;
+const ACTION_END_TURN  = 4;
+
+
 
 const ACTION_NUM = 5;
 
@@ -134,7 +136,8 @@ class Cursor {
 				case ACTION_BUILD:
 					this.charActionIndex = 0;
 					this.usingCharActionMenu = false;
-					this.movementType = BUILD_MODE;
+					this.mode = BUILD_MODE;
+					this.movementType = RESTRICTED;
 					break;
 			}
 		}
@@ -170,17 +173,29 @@ class Cursor {
 						} else if (tile == 4) {
 							this.selectedPiece.blocks ++;
 							this.selectedPiece.attacked = true;
-							this.selectedPiece.moved    = true;
 							this.grid.setTile(this.x, this.y, 0);
 							sfx.unitDestroyed.play();
+							explosionBuffer.push(new Explosion(this.grid, this.x, this.y));
 						} else sfx.incorrect.play();
 						
 						
 						this.selectedPiece = null;
 						this.movementType = FREE;
+					} else if (this.mode == BUILD_MODE) {
+						let tile  = this.grid.getTile(this.x, this.y);
+						
+						if (tile != -1 && this.selectedPiece.blocks >= 2) {
+							this.selectedPiece.blocks -= 2;
+							this.selectedPiece.attacked = true;
+							this.grid.setTile(this.x, this.y, 8);
+							sfx.unitDestroyedAwesome.play();
+							explosionBuffer.push(new Explosion(this.grid, this.x, this.y));
+						}else sfx.incorrect.play();
+						
+						
+						this.selectedPiece = null;
+						this.movementType = FREE;
 					}
-					
-					
 					return;
 				}
 				
@@ -309,7 +324,7 @@ class Cursor {
 		
 		fill(255, 255, 255);
 		rectMode(CORNER);
-		rect(winX, winY, TILE_SIZE * 5, TILE_SIZE * 1.5);
+		rect(winX, winY, TILE_SIZE * 4, TILE_SIZE * 3);
 		rectMode(CENTER);
 		
 		let menuText = [];
@@ -318,6 +333,7 @@ class Cursor {
 		menuText[ACTION_MOVE]      = "MOVE";
 		menuText[ACTION_ATTACK] = "ATTACK";
 		menuText[ACTION_END_TURN]  = "END_TURN";
+		menuText[ACTION_BUILD] = "BUILD(" + this.selectedPiece.blocks +")";
 		
 		textSize(20);
 		

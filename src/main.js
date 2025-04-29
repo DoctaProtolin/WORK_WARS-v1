@@ -42,7 +42,7 @@ const PRESS_TIME = 1;
 
 
 
-let screen = SCREEN_GAME;
+let screen = SCREEN_TITLE;
 
 let tiles = [];
 let sprites = [];
@@ -83,6 +83,9 @@ function preload() {
 	tiles[5] = loadImage(assets.tiles.town);
 	tiles[6] = loadImage(assets.tiles.levelSwitch);
 	tiles[7] = loadImage(assets.tiles.factory);
+	tiles[8] = loadImage(assets.tiles.brick);
+	tiles[9] = [];
+	
 	
 	tiles[100] = loadImage(assets.tiles.border);
 	
@@ -90,9 +93,17 @@ function preload() {
 	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
 	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2)];
+	sprites[3];
+	sprites[4];
+	sprites[5] = [];
+	
+	for (let i = 0; i < 10; i ++) {
+		sprites[5].push(loadImage(assets.sprites["explosion_frame_"+(i+1)]));
+	}
 	
 	heartImage = loadImage(assets.ui.heart);
 	bootImage  = loadImage(assets.ui.boot);
+	titleImage = loadImage(assets.ui.title);
 	
 	
 
@@ -116,8 +127,11 @@ function setup() {
 	createCanvas(window.windowWidth, window.windowHeight);
 	
 	soundtrack.title = new Sound("mus/Title.mp3", 16.274); // loop: 16.274
-	soundtrack.title.setVolume(0);
 	soundtrack.lose  = new Sound("mus/Lose.mp3", 0); // Find loop later
+	
+	for (let track of Object.values(soundtrack)) {
+		track.setVolume(0.08);	
+	}
 	
 	
 	sfx.rWalkFast = new Sound("sfx/RWalkFast.wav", 0);
@@ -136,6 +150,23 @@ function setup() {
 		sfx.gHammer.push(new Sound("./sfx/GHammer" + (i+1) + ".wav", 0));
 	}
 	
+	TILE_SIZE = 30;
+	
+	for (let i in levels){
+		let level = levels[i];
+		let g = new Grid(level);
+		g.loadMap(level);
+		titleData.grids.push(g);
+		
+		g.x += 500 * i;
+		g.y = height/2 - 50;
+	}
+	
+	titleData.cursorXs = [ 
+		titleData.grids[0].x + titleData.grids[0].dimX*TILE_SIZE/2,
+		titleData.grids[1].x + titleData.grids[1].dimX*TILE_SIZE/2,
+		titleData.grids[2].x + titleData.grids[2].dimX*TILE_SIZE/2,
+	];
 	
 }
 
@@ -145,8 +176,14 @@ function draw() {
 	text("CLICK TO START.", width/2, height/2);
 	if (!enableGame) return;
 	
-	
-	gameScreen();
+	// Yes I know about switch cases. Not today.
+	if (screen == SCREEN_TITLE) {
+		titleScreen();
+	} else if (screen == SCREEN_GAME) {
+		gameScreen();
+	} else if (screen == SCREEN_LOSE) {
+		loseScreen();
+	}
 	
 	if (inputHandler.upPress > 0)    inputHandler.upPress --;
 	if (inputHandler.downPress > 0)  inputHandler.downPress --;
@@ -156,9 +193,7 @@ function draw() {
 	if (inputHandler.xPress > 0)     inputHandler.xPress --;
 	if (inputHandler.gPress > 0)     inputHandler.gPress --;
 	
-	if (screen == SCREEN_LOSE) {
-		loseScreen();
-	}
+	
 }
 
 function keyPressed() {
@@ -233,5 +268,9 @@ function isPlayingGunshots() {
 }
 
 function mouseClicked() {
-	enableGame = true;
+	if (!enableGame) {
+		
+		soundtrack.title.play();
+		enableGame = true;
+	}
 }

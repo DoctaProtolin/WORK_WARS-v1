@@ -2,6 +2,8 @@
 
 const SCREEN_GAME = "SCREEN_GAME";
 const SCREEN_LOSE = "SCREEN_LOSE";
+const SCREEN_WIN  = "SCREEN_WIN";
+const SCREEN_TITLE = "SCREEN_TITLE";
 
 function drawTileTest() {
 	noSmooth();
@@ -19,6 +21,8 @@ let turns = 1;
 let gridCommon = new Grid();
 let playerCursor = new Cursor(gridCommon, 0, 0, true);
 let computerCursor = new ComputerCursor(gridCommon, 0, 0, false);
+
+let explosionBuffer = [];
 
 function gameScreen() {
 	background(100);
@@ -67,6 +71,17 @@ function gameScreen() {
 		if (!soundtrack.lose.isPlaying()) soundtrack.lose.play();
 	}
 	
+	for (let i in explosionBuffer) {
+		let explosion = explosionBuffer[i];
+		
+		if (!explosion) continue;
+		if (explosion.frame > 9) {
+			explosionBuffer.splice(i, 1);
+			continue;
+		}
+		explosion.draw();
+	}
+	
 	
 	// image(heartImage, 800, 100, TILE_SIZE, TILE_SIZE);
 }
@@ -74,4 +89,58 @@ function gameScreen() {
 function loseScreen() {
 	textAlign(CENTER);
 	text("WELP!", width/2, height/2);
+}
+
+let titleData = {
+	showGrids: false,
+	grids: [],
+	cursorIndex: 0,
+	cursorXs: [],
+}
+
+function titleScreen() {
+	background(0);
+	push();
+	translate(width/2, height/4);
+	scale(4);
+	noSmooth();
+	image(titleImage, 0, 0);
+	pop();
+	
+	if (titleData.showGrids) {
+		for (let grid of titleData.grids) grid.draw();
+	}
+	
+	if (inputHandler.zPress) {
+		if (!titleData.showGrids) {
+			titleData.showGrids = true;
+			sfx.selected.play();
+		} else {
+			screen = SCREEN_GAME;
+			TILE_SIZE = 50;
+			sfx.selected.play();
+			soundtrack.title.pause();
+			gridCommon.loadMap(levels[titleData.cursorIndex]);
+			return;
+		}
+	}
+	
+	if (inputHandler.leftPress) {
+		titleData.cursorIndex --;
+		sfx.sDown.play();
+	} else if (inputHandler.rightPress) {
+		titleData.cursorIndex ++;
+		sfx.sUp.play();
+	}
+	
+	if (titleData.cursorIndex < 0) titleData.cursorIndex = 2;
+	else if (titleData.cursorIndex > 2) titleData.cursorIndex = 0;
+	
+	textSize(50);
+	stroke(255, 255, 255);
+	text("^", titleData.cursorXs[titleData.cursorIndex], height);
+	
+	
+	
+	soundtrack.title.loop();
 }

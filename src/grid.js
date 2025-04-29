@@ -2,12 +2,13 @@
 
 
 
-const TILE_SIZE = 50;
+let TILE_SIZE = 50;
 let drawGridlines = true;
 
 class Grid {
-	constructor(mapData, enemyData, dim) {
-		this.x = 100;
+	constructor() {
+		//this.loadMap(level);
+		/*this.x = 100;
 		this.y = 100;
 		
 		this.dimX = 15;
@@ -40,6 +41,34 @@ class Grid {
 		for(let i = 0; i < this.dimY; i ++) {
 			for(let j = 0; j < this.dimX; j ++) {
 				let index = objectMap[i][j];
+				
+				let trooper = -1;
+				
+				switch (index) {
+					case 0: continue;
+					case 1: trooper = new Trooper(this, j, i, BLOCKMAN); break;
+					case 2: trooper = new Trooper(this, j, i, PENMAN); break;
+				}
+				
+				if (trooper != -1) this.pieces.push(trooper);
+			}
+		}*/
+
+	}
+	
+	loadMap(level) {
+		this.x = 100;
+		this.y = 100;
+		this.dimX = level.dimX;
+		this.dimY = level.dimY;
+		
+		this.map = level.tileMap;
+		
+		this.pieces = [];
+		
+		for(let i = 0; i < this.dimY; i ++) {
+			for(let j = 0; j < this.dimX; j ++) {
+				let index = level.objectMap[i][j];
 				
 				let trooper = -1;
 				
@@ -126,9 +155,9 @@ class Grid {
 				stepNum += getTileData(this.getTile(stepX, stepY)).mCost;
 				
 				if (stepX < goalX) {
-					if (this.isEmptyTile(stepX + 1, stepY)) stepX ++;
+					if (this.isEmptyTile(stepX + 1, stepY) && this.getTile(stepX + 1, stepY) != 8) stepX ++;
 				} else {
-					if (this.isEmptyTile(stepX - 1, stepY)) stepX --;
+					if (this.isEmptyTile(stepX - 1, stepY) && this.getTile(stepX - 1, stepY) != 8) stepX --;
 				}
 				
 				let x = this.getScreenX(stepX);
@@ -152,9 +181,9 @@ class Grid {
 				
 				
 				if (stepY < goalY) {
-					if (this.isEmptyTile(stepX, stepY + 1)) stepY ++;
+					if (this.isEmptyTile(stepX, stepY + 1) && this.getTile(stepX, stepY + 1) != 8) stepY ++;
 				} else {
-					if (this.isEmptyTile(stepX, stepY - 1)) stepY --;
+					if (this.isEmptyTile(stepX, stepY - 1) && this.getTile(stepX, stepY - 1) != 8) stepY --;
 				}
 				
 				let x = this.getScreenX(stepX);
@@ -294,6 +323,8 @@ class Grid {
 				
 				if (random() > 0.05) sfx.unitDestroyed.play();
 				else sfx.unitDestroyedAwesome.play();
+				
+				explosionBuffer.push(new Explosion(this, this.x, this.y));
 			}
 		}
 		
@@ -305,6 +336,10 @@ class Grid {
 		
 		if(drawGridlines) {
 			this.drawGridlines();
+		}
+		
+		if (!this.pieces) {
+			return;
 		}
 		
 		for (let enemy of this.pieces) {

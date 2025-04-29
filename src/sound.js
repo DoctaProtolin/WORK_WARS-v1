@@ -34,7 +34,7 @@ class Sound {
 		
 		this.section = SECTION_INTRO;
 		this.loopPoint = loopPoint;
-		
+		this.setVolume(1);
 		this.el.pause();
 		
 		//document.body.appendChild(this.el);
@@ -60,7 +60,7 @@ class Sound {
 	continueFromPause() { this.el.play() };
 	
 	loop() {
-		if (this.el.currentTime >= this.el.duration - 0.08) {
+		if (this.el.currentTime >= this.el.duration - 0.09) {
 			this.el.currentTime = this.loopPoint;
 		}
 	}

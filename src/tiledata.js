@@ -87,6 +87,12 @@ function getTileData(index) {
 			defense = 1;
 			break;
 		
+		case 8:
+			name = "BRICK";
+			mCost = Infinity;
+			defense = 0;
+			break;
+		
 		default:
 			throw new Error("Unidentified tile index " + index);
 			break;
