@@ -110,23 +110,6 @@ function preload() {
 
 	// sprites[0] = loadImage(assets.sprites.builder_frame_1);
 	
-}
-
-function setup() {
-	
-	let link = document.createElement("link");
-	link.rel = "icon";
-	link.href = assets.sprites.blockman_frame_1;
-	document.head.appendChild(link);
-	
-	rectMode(CENTER);
-	imageMode(CENTER); // Set rotations
-	angleMode(DEGREES);
-	textAlign("left");
-	
-	textFont(earthboundFont);
-	createCanvas(window.windowWidth, window.windowHeight);
-	
 	soundtrack.title = new Sound("mus/Title.mp3", 16.274); // loop: 16.274
 	soundtrack.lose  = new Sound("mus/Lose.mp3", 8.27);
 	soundtrack.win   = new Sound("mus/Win.mp3", 7.094);
@@ -144,6 +127,8 @@ function setup() {
 	sfx.selected  = new Sound("sfx/Selected.wav", 0);
 	sfx.unitDestroyed = new Sound("sfx/UnitDestroyed.wav", 0);
 	sfx.unitDestroyedAwesome = new Sound("sfx/UnitDestroyedAwesome.wav", 0);
+	sfx.forkliftMoving = new Sound("sfx/ForkliftMoving.wav", 0);
+	sfx.building  = new Sound("sfx/Building.wav", 0);
 	
 	
 	sfx.gHammer   = [];
@@ -151,6 +136,25 @@ function setup() {
 	for (let i = 0; i < 4; i ++) {
 		sfx.gHammer.push(new Sound("./sfx/GHammer" + (i+1) + ".wav", 0));
 	}
+	
+}
+
+function setup() {
+	
+	let link = document.createElement("link");
+	link.rel = "icon";
+	link.href = assets.sprites.blockman_frame_1;
+	document.head.appendChild(link);
+	
+	rectMode(CENTER);
+	imageMode(CENTER); // Set rotations
+	angleMode(DEGREES);
+	textAlign("left");
+	
+	textFont(earthboundFont);
+	createCanvas(window.windowWidth, window.windowHeight);
+	
+	
 	
 	TILE_SIZE = 30;
 	
@@ -183,6 +187,8 @@ function draw() {
 	
 	// Yes I know about switch cases. Not today.
 	if (screen == SCREEN_TITLE) {
+		if (!soundtrack.title.isPlaying()) soundtrack.title.play();
+		else soundtrack.title.loop();
 		titleScreen();
 	} else if (screen == SCREEN_GAME) {
 		gameScreen();

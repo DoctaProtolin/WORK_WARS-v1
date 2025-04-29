@@ -27,6 +27,12 @@ let explosionBuffer = [];
 function gameScreen() {
 	background(100);
 	
+	if (gridCommon.id == 2) {
+		TILE_SIZE = 40;
+	} else {
+		TILE_SIZE = 50;
+	}
+	
 	gridCommon.update();
 	gridCommon.draw();
 	
@@ -64,8 +70,6 @@ function gameScreen() {
 		turns ++;
 	}
 	
-	soundtrack.title.loop();
-	
 	if (gridCommon.playerHasWon() == BLOCKMAN) {
 		screen = SCREEN_LOSE;
 		if (!soundtrack.lose.isPlaying()) soundtrack.lose.play();
@@ -96,9 +100,14 @@ function winScreen() {
 	textSize(100);
 	fill(0, 150, 0);
 	text("NICE!", width/2 + 200, height/2);
-	fill(0, 200, 200);
+	fill(0, 100, 200);
 	textSize(30);
 	text("Press Z to continue!", width/2+200, height/2 + 100);
+	
+	
+	text("Turns: " + turns, width/2 + 200, height/2 + 150);
+	fill(200, 0, 0);
+	text("But can you do it faster?", width/2 + 200, height/2 + 200);
 	
 	if (inputHandler.zPress) {
 		screen = SCREEN_TITLE;
@@ -136,7 +145,7 @@ function titleScreen() {
 	background(0);
 	push();
 	translate(width/2, height/4);
-	scale(4);
+	scale(4);	
 	noSmooth();
 	image(titleImage, 0, 0);
 	pop();

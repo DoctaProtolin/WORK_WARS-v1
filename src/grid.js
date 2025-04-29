@@ -58,7 +58,7 @@ class Grid {
 	
 	loadMap(level) {
 		this.x = 100;
-		this.y = 80;
+		this.y = 60;
 		this.dimX = level.dimX;
 		this.dimY = level.dimY;
 		
@@ -97,6 +97,8 @@ class Grid {
 				if (trooper != -1) this.pieces.push(trooper);
 			}
 		}
+		
+		this.id = level.id;
 		
 	}
 	

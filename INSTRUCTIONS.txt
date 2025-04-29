@@ -17,21 +17,55 @@ THE PENMEN, UPSET OVER THIS TOPICAL ISSUE, DECIDED TO FIGHT BACK!!!
 
 TAKE OVER THE ROADS, THE TOWNS, AND THE FACTORY, PENMEN! FIGHT THE MEN, FORKS, AND BOTS!!!
 
-=========================== INSTRUCTIONS ===========================
+====================== CONSTRUCTION MANUAL ===========================
 
 Use the arrow keys to move your cursor.
 Press z when selecting a PENMAN to control its actions.
 Stuck? Press Z! Seriously, works every time.
 
-Never be afraid to ATTACK a forest to harvest BRICKS.
-You can also attack BRICKS to pick them up again!
+Never be afraid to ATTACK a forest to harvest BRICKS. You never know when they'll come in handy.
 You can place BRICKS on any adjacent square.
+You can also attack BRICKS to pick them up again!
+
 
 Place a penman on a TOWN to regain health!
 
 Only PENMEN can capture SWITCHES. FORKLIFTS can't.
 
 Complete all maps to recieve the ultimate reward!
+
+======================= TRICKS OF THE TRADE ===========================
+
+The penmen have a few secrets about the blockmen they learned from working with them all those years, such as:
+
+1. The BLOCKMEN are a powerful force, but you can outsmart them with some good ol' PENMAN thought.
+2. The penman researchers did lots of work to compile a dictionary of what tiles can do what. Use this for a strategic advantage!
+
+OL PENMAN GUIDE TO STRATEGIC KICKBUTT-ERY
+Grass
+	movement cost: 1
+	defense:  0
+River
+	movement cost: 2
+	defense: 0
+Mountain
+	movement cost: 3
+	defense: 3
+Road
+	movement cost: 0
+	defense: 0
+Wood
+	movement cost: 2
+	defense: 2
+Town
+	movement cost: 1
+	defense: 3
+Switch
+	movement cost: 1
+	defense: 0
+Factory
+	movement cost: 1
+	defense: 0
 
 ============================= CREDITS ===========================
 

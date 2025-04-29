@@ -135,7 +135,7 @@ class Trooper {
 				this.enable = false;
 				
 				
-				if (this.grid.getTile(this.x, this.y) == 6 && this.constructor.name != 'Forklift') {
+				if (this.grid.getTile(this.x, this.y) == 6 && this.constructor.name != 'Forklift' && this.team == PENMAN) {
 					for (let blockman of this.grid.getBlockmen()) {
 						blockman.health = 0;
 					}
@@ -173,8 +173,7 @@ class Trooper {
 				this.tStep = 0;
 			}
 			
-			if (!sfx.hWalkFast.isPlaying()) sfx.hWalkFast.play();
-			else sfx.hWalkFast.loop();	 
+			 
 		} else {
 			//sfx.rWalkFast.pause();
 		}
@@ -193,6 +192,11 @@ class Trooper {
 	draw() {
 		
 		this.move();
+		
+		if (this.enable) {
+			if (!sfx.hWalkFast.isPlaying()) sfx.hWalkFast.play();
+			else sfx.hWalkFast.loop();	
+		}
 		
 		this.animTimer --;
 		
@@ -232,16 +236,9 @@ class Trooper {
 		
 		textSize(20);
 		fill(255, 50, 0);
-		text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
+		if (screen != SCREEN_TITLE) text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
 	}
 }
-
-
-
-
-
-
-
 
 
 
@@ -274,6 +271,11 @@ class Forklift extends Trooper {
 	draw() {
 		this.move();
 		
+		if (this.enable) {
+			if (!sfx.forkliftMoving.isPlaying()) sfx.forkliftMoving.play();
+			else sfx.forkliftMoving.loop();	
+		}
+		
 		this.animTimer --;
 		
 		if(this.animTimer < 0) {
@@ -297,6 +299,6 @@ class Forklift extends Trooper {
 		
 		textSize(20);
 		fill(255, 50, 0);
-		text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
+		if (screen != SCREEN_TITLE) text(this.health, displayX + TILE_SIZE/2, displayY - TILE_SIZE/2);
 	}
 }

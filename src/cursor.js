@@ -134,10 +134,22 @@ class Cursor {
 					break;
 					
 				case ACTION_BUILD:
+				
+					if (this.selectedPiece.blocks > 0) {
+						this.mode = BUILD_MODE;		
+						this.movementType = RESTRICTED;						
+					} else {
+						this.mode = NORMAL_MODE;
+						this.movementType = FREE;
+						this.selectedPiece = null;
+						sfx.incorrect.play();
+						sfx.selected.pause();
+					}
+				
 					this.charActionIndex = 0;
 					this.usingCharActionMenu = false;
-					this.mode = BUILD_MODE;
-					this.movementType = RESTRICTED;
+					
+					
 					break;
 			}
 		}
@@ -188,7 +200,7 @@ class Cursor {
 							this.selectedPiece.blocks --;
 							this.selectedPiece.attacked = true;
 							this.grid.setTile(this.x, this.y, 8);
-							sfx.unitDestroyedAwesome.play();
+							sfx.building.play();
 							explosionBuffer.push(new Explosion(this.grid, this.x, this.y));
 						}else sfx.incorrect.play();
 						
@@ -324,7 +336,7 @@ class Cursor {
 		
 		fill(255, 255, 255);
 		rectMode(CORNER);
-		rect(winX, winY, TILE_SIZE * 4, TILE_SIZE * 3);
+		rect(winX, winY, 50 * 4, 50 * 3);
 		rectMode(CENTER);
 		
 		let menuText = [];
@@ -345,7 +357,7 @@ class Cursor {
 			let displayText = menuText[i];
 			if (this.charActionIndex%ACTION_NUM == i) displayText = "<" + displayText; // Earthbound font has < and > flipped.
 			
-			if (this.isCharActionUnselectable(i)) fill(150, 150, 150);
+			if (this.isCharActionUnselectable(i) || (i == ACTION_BUILD && this.selectedPiece.blocks < 1)) fill(150, 150, 150);
 			
 			text(displayText, winX + 10, 30 * i + winY + 20, 10);
 		}
