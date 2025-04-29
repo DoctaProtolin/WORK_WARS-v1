@@ -93,8 +93,9 @@ function preload() {
 	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
 	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2)];
-	sprites[3];
-	sprites[4];
+	sprites[2] = [loadImage(assets.sprites.penman_forklift_frame_1), loadImage(assets.sprites.penman_forklift_frame_2)];
+	sprites[3] = []; // botmen
+	sprites[4] = [];
 	sprites[5] = [];
 	
 	for (let i = 0; i < 10; i ++) {

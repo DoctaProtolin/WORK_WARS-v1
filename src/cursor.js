@@ -336,6 +336,7 @@ class Cursor {
 		menuText[ACTION_BUILD] = "BUILD(" + this.selectedPiece.blocks +")";
 		
 		textSize(20);
+		textAlign("left");
 		
 		
 		for (let i = 0; i < menuText.length; i ++) {

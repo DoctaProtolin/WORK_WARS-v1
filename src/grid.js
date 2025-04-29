@@ -62,7 +62,20 @@ class Grid {
 		this.dimX = level.dimX;
 		this.dimY = level.dimY;
 		
-		this.map = level.tileMap;
+		this.map = [];
+		
+		isPlayerTurn = true;
+		playerCursor = new Cursor(this, 0, 0, true);
+		computerCursor = new ComputerCursor(this, 0, 0, false);
+		turns = 1;
+		endTurnTrigger = false;
+		
+		for (let i in level.tileMap) {
+			this.map[i] = [];
+			for (let j in level.tileMap[i]) {
+				this.map[i][j] = level.tileMap[i][j];
+			}
+		}
 		
 		this.pieces = [];
 		
@@ -72,10 +85,12 @@ class Grid {
 				
 				let trooper = -1;
 				
-				switch (index) {
-					case 0: continue;
-					case 1: trooper = new Trooper(this, j, i, BLOCKMAN); break;
-					case 2: trooper = new Trooper(this, j, i, PENMAN); break;
+				switch (index-1) {
+					// case 0: continue;
+					case 0: trooper = new Trooper(this, j, i, BLOCKMAN); break;
+					case 1: trooper = new Trooper(this, j, i, PENMAN); break;
+					case 2: trooper = new Forklift(this, j, i, PENMAN); break
+					case 3: break; // for botmen
 				}
 				
 				if (trooper != -1) this.pieces.push(trooper);
@@ -319,12 +334,13 @@ class Grid {
 			enemy.update();
 			
 			if (enemy.health <= 0) {
+				explosionBuffer.push(new Explosion(this, enemy.x, enemy.y));
 				this.pieces.splice(i, 1);
 				
 				if (random() > 0.05) sfx.unitDestroyed.play();
 				else sfx.unitDestroyedAwesome.play();
 				
-				explosionBuffer.push(new Explosion(this, this.x, this.y));
+				
 			}
 		}
 		
