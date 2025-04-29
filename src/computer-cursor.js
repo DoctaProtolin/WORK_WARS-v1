@@ -87,7 +87,7 @@ class ComputerCursor {
 				break;
 			
 			case ACTION_SECONDARY:
-				console.log(this.bAttack);
+				// console.log(this.bAttack);
 				this.bAttack.performAttack(this.pAttack);
 				this.state = FIND_CLOSEST;
 				this.doneWithPiece ++;

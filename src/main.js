@@ -76,7 +76,7 @@ let inputHandler = {
 function preload() {
 	
 	tiles[0] = loadImage(assets.tiles.grass);
-	tiles[1] = loadImage(assets.tiles.river);
+	tiles[1] = [loadImage(assets.tiles.river_straight), loadImage(assets.tiles.river_curve)];
 	tiles[2] = loadImage(assets.tiles.mountain);
 	tiles[3] = [loadImage(assets.tiles.road_straight), loadImage(assets.tiles.road_corner), loadImage(assets.tiles.road_cross), loadImage(assets.tiles.road_t)];
 	tiles[4] = loadImage(assets.tiles.wood);
@@ -92,7 +92,7 @@ function preload() {
 	earthboundFont = loadFont(assets.font.earthbound);
 	
 	sprites[0] = [loadImage(assets.sprites.blockman_frame_1), loadImage(assets.sprites.blockman_frame_2)];
-	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2)];
+	sprites[1] = [loadImage(assets.sprites.penman_frame_1),   loadImage(assets.sprites.penman_frame_2), loadImage(assets.sprites.penman_walk_frame_1), loadImage(assets.sprites.penman_walk_frame_2)];
 	sprites[2] = [loadImage(assets.sprites.penman_forklift_frame_1), loadImage(assets.sprites.penman_forklift_frame_2)];
 	sprites[3] = []; // botmen
 	sprites[4] = [];
