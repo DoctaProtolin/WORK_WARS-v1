@@ -58,7 +58,7 @@ class Grid {
 	
 	loadMap(level) {
 		this.x = 100;
-		this.y = 100;
+		this.y = 80;
 		this.dimX = level.dimX;
 		this.dimY = level.dimY;
 		
