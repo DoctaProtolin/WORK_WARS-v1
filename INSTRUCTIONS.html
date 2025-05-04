@@ -2,23 +2,41 @@
 <!DOCTYPE html>
 
 <html>
+	<head>
+		<style>
+			body {
+				color: white;
+				background-color: black;
+				font-family: monospace;
+				font-size: 15px;
+			}
 
-<head>
+			a {
+				color: cyan;
+			}
+			
+			h1 {
+				text-align: center;
+			}
+		</style>
 
-<style>
-body {
-color: white;
-background-color: black;
-font-family: monospace;
-font-size: 15px;
-}
+		<title>Work Wars Instructions</title>
 
-a {
-color: cyan;
-}
-</style>
+		<script>
+			let assets = {
+				sprites: {},
+			}
+		</script>
+		<script src = "src/assets-sprite.js"></script>
 
-</head>
+		<script>
+		let link = document.createElement("link");
+			link.rel = "icon";
+			link.href = assets.sprites.blockman_frame_1;
+			document.head.appendChild(link);
+		</script>
+
+	</head>
 
 <body>
 
@@ -42,11 +60,10 @@ THE PENMEN, UPSET OVER THIS TOPICAL ISSUE, DECIDED TO FIGHT BACK!!!<br><br>
 
 TAKE OVER THE ROADS, THE TOWNS, AND THE FACTORY, PENMEN! FIGHT THE MEN, FORKS, AND BOTS!!!<br><br>
 
-====================== CONSTRUCTION MANUAL ===========================<br><br>
-
-Use the arrow keys to move your cursor.<br>
-Press z when selecting a PENMAN to control its actions.<br>
-Stuck? Press Z! Seriously, works every time.<br>
+<h1>====================== CONSTRUCTION MANUAL ===========================</h1>
+Use the <a>arrow keys</a> to move your cursor.<br>
+Press <a>z</a> when selecting a PENMAN to control its actions.<br>
+Stuck? Press <a>Z!</a> Seriously, works every time.<br>
 
 Never be afraid to ATTACK a forest to harvest BRICKS. You never know when they'll come in handy.<br>
 You can place BRICKS on any adjacent square.<br>
@@ -59,7 +76,7 @@ Only PENMEN can capture SWITCHES. FORKLIFTS can't.<br><br>
 
 Complete all maps to recieve the ultimate reward!<br><br>
 
-======================= TRICKS OF THE TRADE ===========================<br><br>
+<h1>======================= TRICKS OF THE TRADE ===========================</h1>
 
 The penmen have a few secrets about the blockmen they learned from working with them all those years, such as:<br><br>
 
@@ -96,7 +113,7 @@ Factory<br>
 
 TAKE OVER THE ROADS, THE TOWNS, AND THE FACTORY, PENMEN! HAMMER SO FAST ALL YOUR FOES CRASH!!!<br><br>
 
-============================= CREDITS ===========================<br><br>
+<h1>============================= CREDITS ===========================</h1>
 
 Music and Sound Effects by Dobrakawanimat<br>
 Art by Dobrakawanimat<br><br>
