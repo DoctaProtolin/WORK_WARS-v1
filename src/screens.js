@@ -152,6 +152,7 @@ function titleScreen() {
 	pop();
 	
 	if (!titleData.showGrids) {
+		textAlign(CENTER);
 		push();
 		translate(width/4, height/4 + 50);
 		scale(4);
