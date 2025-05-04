@@ -48,7 +48,7 @@ let tiles = [];
 let sprites = [];
 
 // Image vars
-let heartImage, bootImage;
+let heartImage, bootImage, zButtonImage, xButtonImage;
 let earthboundFont;
 
 let soundtrack = {};
@@ -105,6 +105,9 @@ function preload() {
 	heartImage = loadImage(assets.ui.heart);
 	bootImage  = loadImage(assets.ui.boot);
 	titleImage = loadImage(assets.ui.title);
+	
+	zButtonImage = loadImage(assets.ui.z);
+	xButtonImage = loadImage(assets.ui.x);
 	
 	
 

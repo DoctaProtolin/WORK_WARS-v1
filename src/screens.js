@@ -143,6 +143,7 @@ let titleData = {
 function titleScreen() {
 	TILE_SIZE = 30;
 	background(0);
+	
 	push();
 	translate(width/2, height/4);
 	scale(4);	
@@ -150,9 +151,31 @@ function titleScreen() {
 	image(titleImage, 0, 0);
 	pop();
 	
-	fill(255, 255, 255);
-	textAlign(CENTER);
-	text("Press X for instructions", width/2, 300);
+	if (!titleData.showGrids) {
+		push();
+		translate(width/4, height/4 + 50);
+		scale(4);
+		noSmooth();
+		image(zButtonImage, 0, 0);
+		scale(0.25);
+		fill(255, 255, 255);
+		text("TO START", 0, 100);
+		pop();
+		
+		push();
+		translate(width * 3/4, height/4 + 50);
+		scale(4);
+		noSmooth();
+		image(xButtonImage, 0, 0);
+		scale(0.25);
+		fill(255, 255, 255);
+		text("TO INSTRUCT", 0, 100);
+		pop();
+	}
+	
+	// fill(255, 255, 255);
+	// textAlign(CENTER);
+	// text("Press X for instructions", width/2, 300);
 	
 	if (titleData.showGrids) {
 		for (let grid of titleData.grids) grid.draw();
@@ -173,7 +196,7 @@ function titleScreen() {
 	}
 	
 	if (inputHandler.xPress) {
-		location.href = "./INSTRUCTIONS.txt";
+		location.href = "./INSTRUCTIONS.html";
 	}
 	
 	if (titleData.showGrids) {
